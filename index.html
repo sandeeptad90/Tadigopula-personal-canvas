@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Family Sleep Canvas v2</title>
+  <title>Family Sleep & Wellness Canvas v3</title>
   <style>
     :root{
       --bg:#05080f; --surface:#0a0f1a; --card:#0e1520; --card2:#121c2e;
@@ -15,8 +15,10 @@
     }
     *{box-sizing:border-box}
     body{
-      margin:0; background:radial-gradient(circle at top, #0b1220 0%, var(--bg) 60%);
-      color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      margin:0;
+      background:radial-gradient(circle at top, #0b1220 0%, var(--bg) 60%);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
       line-height:1.5;
     }
     .wrap{max-width:1200px; margin:0 auto; padding:20px 14px 36px}
@@ -26,7 +28,7 @@
       text-align:center; box-shadow:0 16px 40px rgba(0,0,0,.28);
     }
     .hero h1{margin:0; font-size:clamp(28px,4vw,46px); letter-spacing:-.04em}
-    .hero p{margin:8px auto 0; max-width:90ch; color:var(--muted)}
+    .hero p{margin:8px auto 0; max-width:95ch; color:var(--muted)}
     .badges{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px}
     .badge{
       display:inline-flex; align-items:center; gap:6px;
@@ -126,30 +128,31 @@
 <body>
 <div class="wrap">
   <section class="hero">
-    <div style="font-size:42px">🌙 🛏️ 👨‍👩‍👦</div>
-    <h1>Family Sleep Canvas v2</h1>
+    <div style="font-size:42px">🌙 🛏️ 👨‍👩‍👦 🤰</div>
+    <h1>Family Sleep & Wellness Canvas v3</h1>
     <p>
-      This version folds in the extra JSX ideas from your uploaded file: the sleep HQ overview, touch techniques, activity ranking,
-      weekday/weekend schedules, TV rules, health guidance, and quick wins — all in one shareable page.
+      Updated with the child-sleep plan, the mother’s pregnancy and medication-aware wellness section, family nutrition,
+      father workout + trading blocks, and a cleaner tabbed dashboard for your GitHub Pages site.
     </p>
     <div class="badges">
-      <span class="badge b-red">Current bedtime 10:30 PM</span>
-      <span class="badge b-green">Target asleep 8:30 PM</span>
-      <span class="badge b-gold">Gentle sleep training</span>
-      <span class="badge b-blue">Working-parent schedule</span>
+      <span class="badge b-red">Mom 2 months pregnant</span>
+      <span class="badge b-green">Gentle sleep plan</span>
+      <span class="badge b-gold">Food + hydration</span>
+      <span class="badge b-blue">Workout + work blocks</span>
       <span class="badge b-purple">Co-sleeping family</span>
-      <span class="badge b-teal">Icons + tabs + logos</span>
+      <span class="badge b-teal">Deploy to Pages</span>
     </div>
   </section>
 
   <div class="nav" id="nav">
     <button class="active" data-target="home">🌙 Sleep HQ</button>
     <button data-target="touch">🤲 Techniques</button>
+    <button data-target="pregnancy">🤰 Pregnancy</button>
+    <button data-target="nutrition">🥗 Nutrition</button>
     <button data-target="activity">🏊 Activities</button>
     <button data-target="weekday">💼 Weekdays</button>
     <button data-target="weekend">🏖️ Weekend</button>
     <button data-target="tv">📺 TV Rules</button>
-    <button data-target="health">💪 Health</button>
     <button data-target="wins">⚡ Quick Wins</button>
   </div>
 
@@ -159,171 +162,261 @@
         <h2>Sleep HQ</h2>
         <div class="kpis">
           <div class="kpi"><div class="lab">Bedtime</div><div class="row"><div><div class="now">NOW</div><div class="val">10:30 PM</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--green)">8:30 PM</div></div></div></div>
-          <div class="kpi"><div class="lab">Night Sleep</div><div class="row"><div><div class="now">NOW</div><div class="val">9 hrs</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--green)">11 hrs</div></div></div></div>
-          <div class="kpi"><div class="lab">Fall Asleep</div><div class="row"><div><div class="now">NOW</div><div class="val">90 min</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--blue)">15 min</div></div></div></div>
-          <div class="kpi"><div class="lab">Growth HGH</div><div class="row"><div><div class="now">NOW</div><div class="val">Missed</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--gold)">Captured</div></div></div></div>
+          <div class="kpi"><div class="lab">Night Sleep</div><div class="row"><div><div class="now">NOW</div><div class="val">9 hrs</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--green)">10–11 hrs</div></div></div></div>
+          <div class="kpi"><div class="lab">Fall Asleep</div><div class="row"><div><div class="now">NOW</div><div class="val">90 min</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--blue)">15–25 min</div></div></div></div>
+          <div class="kpi"><div class="lab">Family Load</div><div class="row"><div><div class="now">NOW</div><div class="val">Heavy</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--gold)">Balanced</div></div></div></div>
         </div>
 
         <div class="quote">
-          The big pattern in your file is simple: too much stimulation late in the day, bedtime starts too late, and the child has a strong sleep association with parent presence.
+          The main pattern is still the same: late stimulation, a late wind-down, and strong parent-dependent sleep habits are making bedtime stretch long.
         </div>
 
         <div class="accordion open">
           <button class="acc-head" type="button" onclick="toggleAcc(this)">
-            <span class="left"><span>🔍</span><strong>Why bedtime stretches so long</strong></span><span>▲</span>
+            <span class="left"><span>🔍</span><strong>What is most important now</strong></span><span>▲</span>
           </button>
           <div class="acc-body">
             <div class="pillrow">
-              <span class="pill">📺 TV during dinner</span>
-              <span class="pill">🕘 Routine starts late</span>
-              <span class="pill">🌅 Not enough sleep pressure</span>
-              <span class="pill">💡 Bright lights after 7 PM</span>
-              <span class="pill">🛏️ No sleep trigger trained</span>
+              <span class="pill">📺 TV moved earlier</span>
+              <span class="pill">🕘 bedtime shifted earlier gradually</span>
+              <span class="pill">🌅 daytime activity before night</span>
+              <span class="pill">🤲 gentle fading not harsh training</span>
+              <span class="pill">🤰 pregnancy-safe family planning</span>
             </div>
             <ul>
-              <li>Move TV away from dinner and bedtime.</li>
-              <li>Start wind-down much earlier.</li>
-              <li>Use a repeatable sleep cue: the same books, same order, same words.</li>
+              <li>Use the same routine nightly.</li>
+              <li>Make the evening boring and predictable.</li>
+              <li>Keep the child’s sleep plan and mom’s pregnancy needs in one family dashboard.</li>
             </ul>
           </div>
         </div>
 
         <h3>Tonight’s ideal flow</h3>
         <div class="timeline">
-          <div class="step"><div class="t">5:50p</div><div><strong>Home from pickup</strong><span class="muted">Arrive and immediately shift into low-stimulation mode.</span></div></div>
-          <div class="step"><div class="t">6:00p</div><div><strong>Outdoor play — 45–60 minutes</strong><span class="muted">Hard running, chasing, climbing, ball games.</span></div></div>
-          <div class="step"><div class="t">6:45p</div><div><strong>Dinner — no TV</strong><span class="muted">Use music, conversation, or calm background noise instead.</span></div></div>
-          <div class="step"><div class="t">7:15p</div><div><strong>All lights dim</strong><span class="muted">House enters sleep mode.</span></div></div>
-          <div class="step"><div class="t">7:30p</div><div><strong>Warm bath</strong><span class="muted">Cool-down after bath can support melatonin.</span></div></div>
-          <div class="step"><div class="t">8:00p</div><div><strong>Two books + white noise</strong><span class="muted">Keep it boring, predictable, and short.</span></div></div>
-          <div class="step"><div class="t">8:20p</div><div><strong>Touch technique</strong><span class="muted">Back tapping, hair stroking, or chest press.</span></div></div>
-          <div class="step"><div class="t">8:30p</div><div><strong>Target asleep</strong><span class="muted">This is the win you are trying to build toward.</span></div></div>
+          <div class="step"><div class="t">5:50p</div><div><strong>Home from pickup</strong><span class="muted">Arrive and switch into low-stimulation mode.</span></div></div>
+          <div class="step"><div class="t">6:00p</div><div><strong>Outdoor play — 45–60 minutes</strong><span class="muted">Chase, climb, jump, park time.</span></div></div>
+          <div class="step"><div class="t">6:45p</div><div><strong>Dinner — no TV</strong><span class="muted">Family conversation or calm music instead.</span></div></div>
+          <div class="step"><div class="t">7:30p</div><div><strong>Bath + pajamas</strong><span class="muted">Dim lights and reduce energy.</span></div></div>
+          <div class="step"><div class="t">8:00p</div><div><strong>Two books + low noise</strong><span class="muted">Repeat the same books and words.</span></div></div>
+          <div class="step"><div class="t">8:15p</div><div><strong>Gentle touch cue</strong><span class="muted">Back tapping, hair strokes, or chest rubs.</span></div></div>
+          <div class="step"><div class="t">8:30p</div><div><strong>Target asleep</strong><span class="muted">Aim to reach this gradually over weeks, not overnight.</span></div></div>
         </div>
       </section>
 
       <section id="touch" class="section">
-        <h2>Touch Techniques</h2>
-        <p class="muted">These mirror the ideas from your JSX: rhythmic touch, soft pressure, low-stimulation sound, and gradual fading.</p>
+        <h2>Techniques</h2>
+        <p class="muted">These mirror the ideas you asked for: touch, rhythm, low stimulation, and gradually fading parent help.</p>
 
         <div class="split">
           <div class="mini">
             <h4>🤲 Back tapping / pat-pat method</h4>
-            <div class="tag" style="background:var(--gold)">Most effective</div>
+            <div class="tag" style="background:var(--gold)">Most useful</div>
             <p class="small">
-              Use a slow, steady rhythm near the shoulder blades. The goal is to calm him, then slowly taper the taps until he no longer needs them.
+              Slow, steady pats near the shoulder blades or upper back can be calming. Keep the rhythm boring and predictable.
             </p>
           </div>
           <div class="mini">
             <h4>💆 Hair / head stroking</h4>
-            <div class="tag" style="background:var(--purple)">Extremely powerful</div>
+            <div class="tag" style="background:var(--purple)">Very calming</div>
             <p class="small">
-              Gentle forehead-to-crown strokes or eyebrow sweeps. Keep pressure feather-light and slow.
+              Gentle forehead-to-crown strokes or smoothing the hair can help many children settle.
             </p>
           </div>
           <div class="mini">
             <h4>🫸 Chest / sternum press</h4>
-            <div class="tag" style="background:var(--teal)">Great for active kids</div>
+            <div class="tag" style="background:var(--teal)">Grounding cue</div>
             <p class="small">
-              Slow, gentle palm pressure on the chest area can feel grounding and safe. Best as a brief settling cue, not a constant crutch.
+              Slow, light hand pressure on the chest or upper body can feel reassuring. Use it as a brief settle cue, not as a long crutch.
             </p>
           </div>
           <div class="mini">
             <h4>🌬️ Fan / white noise</h4>
-            <div class="tag" style="background:var(--blue)">Non-negotiable buy</div>
+            <div class="tag" style="background:var(--blue)">Low and safe</div>
             <p class="small">
-              Use a low, safe level. Point airflow toward the wall or ceiling, not directly at him.
+              Keep airflow soft and point the fan away from the face. The goal is a calm background hum, not strong wind.
             </p>
           </div>
           <div class="mini">
             <h4>🗣️ Monotone story</h4>
             <div class="tag" style="background:var(--orange)">Underrated</div>
             <p class="small">
-              A flat, slow, boring voice reduces excitement. Think “quiet clouds, soft grass, gentle wind.”
+              Use short, repetitive, boring phrases. The calmer the voice, the better the body can switch off.
             </p>
           </div>
           <div class="mini">
             <h4>🫁 Breathing sync</h4>
             <div class="tag" style="background:var(--green)">Advanced</div>
             <p class="small">
-              Lie beside him and breathe slowly so his body can match yours. Use it as a calm-down cue, not a performance.
-            </p>
-          </div>
-          <div class="mini">
-            <h4>🦶 Foot / leg massage</h4>
-            <div class="tag" style="background:var(--pink)">Starter ritual</div>
-            <p class="small">
-              Nice before books or as a transition into the bedroom. Make the ritual name consistent so the brain learns the pattern.
+              Lie beside him and breathe slowly so his body copies your rhythm. Great for active or anxious children.
             </p>
           </div>
         </div>
 
         <div class="quote">
-          Best strategy from your file: use touch to help him settle, then fade it gradually so the body learns “I can fall asleep now.”
+          Best strategy: help him settle with touch, then slowly reduce the touch over time so sleep no longer depends on it.
+        </div>
+      </section>
+
+      <section id="pregnancy" class="section">
+        <h2>Pregnancy</h2>
+        <div class="card accent">
+          <strong>Important safety note</strong>
+          <p class="muted">
+            Because mom is pregnant, on a prescribed blood thinner, and has splenomegaly, any medication or exercise change should be cleared with her OB / hematology team first.
+          </p>
+        </div>
+
+        <div class="split">
+          <div class="mini">
+            <h4>🤰 Mom’s pregnancy basics</h4>
+            <ul>
+              <li>Prenatal vitamin daily.</li>
+              <li>Iron tablet as prescribed.</li>
+              <li>Hydration throughout the day.</li>
+              <li>Walking, yoga, pelvic floor work, and swimming if cleared.</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>🚫 Keep it conservative</h4>
+            <ul>
+              <li>No contact sports or injury-risk activities.</li>
+              <li>No “detox” cleanses that replace meals.</li>
+              <li>No medicine changes without clinician approval.</li>
+              <li>Stop and ask the OB team about bleeding, pain, dizziness, or unusual symptoms.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Mom daily movement plan</h3>
+        <div class="timeline">
+          <div class="step"><div class="t">Morning</div><div><strong>Easy walk + mobility</strong><span class="muted">Gentle movement to start the day, not a hard workout unless her OB says okay.</span></div></div>
+          <div class="step"><div class="t">Midday</div><div><strong>10–20 minute walk</strong><span class="muted">Split activity into manageable blocks if needed.</span></div></div>
+          <div class="step"><div class="t">Evening</div><div><strong>Yoga / breathing / stretch</strong><span class="muted">Keep it low impact and comfortable.</span></div></div>
+          <div class="step"><div class="t">Any time</div><div><strong>Pelvic floor practice</strong><span class="muted">Short sets spread through the day.</span></div></div>
+        </div>
+
+        <details class="accordion open">
+          <summary class="acc-head" onclick="toggleAcc(this)">
+            <span class="left"><span>💡</span><strong>How to think about “detox juices”</strong></span><span>▲</span>
+          </summary>
+          <div class="acc-body">
+            <p>
+              I turned this into a “hydration / smoothie / juice” module instead of a detox claim.
+              Whole fruit, vegetables, water, and a balanced meal are the main focus.
+            </p>
+            <ul>
+              <li>Optional ABC-style juice can sit in a mid-morning slot, not as a meal replacement.</li>
+              <li>Whole fruit is better than juice most of the time.</li>
+              <li>Keep it unsweetened and simple.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <section id="nutrition" class="section">
+        <h2>Nutrition</h2>
+        <div class="quote">
+          This section turns the house into a meal rhythm: protein at each meal, produce daily, and easy planning for working parents.
+        </div>
+
+        <h3>Family protein rotation</h3>
+        <table>
+          <thead>
+            <tr><th>Food</th><th>Best use</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Chicken</td><td>Lunch or dinner</td><td>Lean, easy for meal prep.</td></tr>
+            <tr><td>Fish</td><td>2–3x/week</td><td>Use cooked, well-handled fish; pregnancy-safe preparation matters.</td></tr>
+            <tr><td>Goat</td><td>Weekend meal</td><td>Great for family rotation when cooked well.</td></tr>
+            <tr><td>Paneer</td><td>Veg meal option</td><td>Quick protein for breakfasts, lunch boxes, or dinner.</td></tr>
+            <tr><td>Eggs / beans / lentils</td><td>Breakfast or lunch</td><td>Simple protein boosters for the whole family.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Simple day template</h3>
+        <div class="timeline">
+          <div class="step"><div class="t">Breakfast</div><div><strong>Protein + fruit</strong><span class="muted">Example: eggs + toast + fruit, or paneer + fruit, or yogurt + banana.</span></div></div>
+          <div class="step"><div class="t">Lunch</div><div><strong>Rice / roti + protein + veg</strong><span class="muted">Example: chicken, fish, goat, paneer, dal, or beans with vegetables.</span></div></div>
+          <div class="step"><div class="t">Snack</div><div><strong>Fruit or nuts</strong><span class="muted">Apple, berries, banana, orange, or a simple nut portion.</span></div></div>
+          <div class="step"><div class="t">Dinner</div><div><strong>Light but complete</strong><span class="muted">Protein, vegetables, and a modest carb so bedtime is easier.</span></div></div>
+        </div>
+
+        <h3>Family meal rhythm</h3>
+        <div class="checklist">
+          <label><input type="checkbox">Prep 1–2 proteins on Sunday.</label>
+          <label><input type="checkbox">Pack fruit into the weekday bag the night before.</label>
+          <label><input type="checkbox">Keep dinner lighter than lunch when bedtime matters.</label>
+          <label><input type="checkbox">Use juice as a small extra, not the main nutrition source.</label>
         </div>
       </section>
 
       <section id="activity" class="section">
-        <h2>Activities That Help Sleep</h2>
+        <h2>Activities</h2>
         <div class="tabs2" id="actTabs">
           <button class="active" data-act="swim">🏊 Swimming</button>
           <button data-act="martial">🥋 Taekwondo</button>
           <button data-act="art">🎨 Art</button>
-          <button data-act="soccer">⚽ Soccer</button>
+          <button data-act="walk">🚶 Walking / Yoga</button>
         </div>
         <div id="swim" class="card" style="display:block">
           <strong>Swimming — best overall sleep activity</strong>
-          <p class="muted">Your file ranks it highest because it uses the whole body and is ideal on weekend mornings.</p>
+          <p class="muted">This is the best weekend activity to burn energy and support a calm night afterward.</p>
           <ul>
-            <li>Best time: 9:00–10:00 AM on Saturday.</li>
-            <li>Avoid late evening swims.</li>
-            <li>Great for energy burn and calm afternoon.</li>
+            <li>Best time: morning.</li>
+            <li>Good fit for weekends and some weekday mornings if possible.</li>
+            <li>Works well for both child and parent fitness.</li>
           </ul>
         </div>
         <div id="martial" class="card" style="display:none">
           <strong>Taekwondo / martial arts</strong>
-          <p class="muted">Good for discipline, focus, and movement. Works well after school or on Saturday morning.</p>
+          <p class="muted">Good for discipline, movement, and focus. Keep it earlier in the day.</p>
         </div>
         <div id="art" class="card" style="display:none">
           <strong>Painting / art class</strong>
-          <p class="muted">Great for creativity and fine motor skills, but it is not a strong sleep-tiring activity by itself.</p>
+          <p class="muted">Great for development and calm play, but it will not “tire him out” like swim or active sports.</p>
         </div>
-        <div id="soccer" class="card" style="display:none">
-          <strong>Soccer / sports class</strong>
-          <p class="muted">Good running-heavy activity. Great if you can get it in earlier in the day.</p>
+        <div id="walk" class="card" style="display:none">
+          <strong>Walking / yoga / breathing</strong>
+          <p class="muted">Best for mom’s pregnancy support and for family reset time.</p>
         </div>
 
-        <h3>Sleep-impact ranking</h3>
+        <h3>Weekly ranking for sleep pressure</h3>
         <div class="timeline">
-          <div class="step"><div class="t">#1</div><div><strong>Swimming</strong><span class="muted">Best total-body effort and most sleep-friendly timing.</span></div></div>
-          <div class="step"><div class="t">#2</div><div><strong>Taekwondo</strong><span class="muted">Excellent for discipline + movement.</span></div></div>
-          <div class="step"><div class="t">#3</div><div><strong>Soccer</strong><span class="muted">Strong choice for running and coordination.</span></div></div>
-          <div class="step"><div class="t">#4</div><div><strong>Art</strong><span class="muted">Wonderful for development, less for sleep pressure.</span></div></div>
+          <div class="step"><div class="t">#1</div><div><strong>Swimming</strong><span class="muted">Best total-body option.</span></div></div>
+          <div class="step"><div class="t">#2</div><div><strong>Taekwondo</strong><span class="muted">Strong movement + routine.</span></div></div>
+          <div class="step"><div class="t">#3</div><div><strong>Outdoor play</strong><span class="muted">Excellent if done before dinner.</span></div></div>
+          <div class="step"><div class="t">#4</div><div><strong>Art</strong><span class="muted">Great supplement, not the main fatigue builder.</span></div></div>
         </div>
       </section>
 
       <section id="weekday" class="section">
-        <h2>Weekday Schedule</h2>
+        <h2>Weekdays</h2>
         <table>
           <thead>
             <tr><th>Time</th><th>Who</th><th>Action</th><th>Note</th></tr>
           </thead>
           <tbody>
-            <tr><td>5:50a</td><td>Dad</td><td>Drive to gym</td><td>10 min commute</td></tr>
-            <tr><td>6:00a</td><td>Dad</td><td>Workout 45 min</td><td>Keep the morning routine</td></tr>
-            <tr><td>6:50a</td><td>Mom</td><td>Wake / prepare</td><td>Leave by 7:10 for DC commute</td></tr>
-            <tr><td>7:30a</td><td>Kid</td><td>Wake + TV slot</td><td>Move screens away from dinner; keep them earlier</td></tr>
-            <tr><td>5:30p</td><td>Dad + Kid</td><td>Daycare pickup</td><td>Transition home gently</td></tr>
-            <tr><td>6:00p</td><td>Kid</td><td>Outdoor play</td><td>Run, chase, climb, ball games</td></tr>
-            <tr><td>6:45p</td><td>Family</td><td>Dinner</td><td>No TV at the table</td></tr>
-            <tr><td>7:30p</td><td>Dad + Kid</td><td>Bath</td><td>Dim lights, calm voice</td></tr>
-            <tr><td>8:00p</td><td>Dad + Kid</td><td>Books + white noise</td><td>Same 2 books every night</td></tr>
-            <tr><td>8:30p</td><td>Kid</td><td>Sleep target</td><td>Gradual shift is the key</td></tr>
+            <tr><td>5:50a</td><td>Dad</td><td>Drive to gym</td><td>10 min commute.</td></tr>
+            <tr><td>6:00–6:45a</td><td>Dad</td><td>Burn Boot Camp workout</td><td>Keep it protected.</td></tr>
+            <tr><td>6:50a</td><td>Mom</td><td>Wake / prepare</td><td>Breakfast, bag, school logistics.</td></tr>
+            <tr><td>7:30a</td><td>Family</td><td>Morning flow</td><td>Keep it calm and efficient.</td></tr>
+            <tr><td>9:00a–5:30p</td><td>Child</td><td>Daycare + nap</td><td>Nap is fine; it affects bedtime pressure.</td></tr>
+            <tr><td>5:30p</td><td>Dad</td><td>Pickup</td><td>Transition home gently.</td></tr>
+            <tr><td>6:00p</td><td>Child</td><td>Outdoor play</td><td>Use up energy before dinner.</td></tr>
+            <tr><td>6:45p</td><td>Family</td><td>Dinner</td><td>No TV at the table.</td></tr>
+            <tr><td>8:45p</td><td>Dad</td><td>Investment / trading block</td><td>Protected focus time after kid wind-down, if needed.</td></tr>
+            <tr><td>9:00p</td><td>Kid</td><td>Sleep routine continues</td><td>Books, cuddles, fading touch.</td></tr>
           </tbody>
         </table>
+
+        <div class="card">
+          <strong>Dad’s trading block</strong>
+          <p class="muted">I added a protected 20–30 minute investing window so his daily stocks work does not fight bedtime or family time.</p>
+        </div>
       </section>
 
       <section id="weekend" class="section">
-        <h2>Weekend Schedule</h2>
+        <h2>Weekend</h2>
         <div class="tabs2" id="wkTabs">
           <button class="active" data-wk="sat">🏖️ Saturday</button>
           <button data-wk="sun">☀️ Sunday</button>
@@ -332,37 +425,35 @@
           <strong>Saturday</strong>
           <ul>
             <li>Morning swim around 9 AM.</li>
-            <li>After swim: lunch, calm time, then creative play.</li>
-            <li>Early dinner and early bedtime on swim days often work best.</li>
+            <li>Lunch, quiet time, then family outing or calm play.</li>
+            <li>Early dinner and a sleep routine that stays close to weekday timing.</li>
           </ul>
         </div>
         <div id="sun" class="card" style="display:none">
           <strong>Sunday</strong>
           <ul>
-            <li>Keep wake time close to weekdays.</li>
-            <li>Park, nature walk, or outdoor time in the morning.</li>
-            <li>Meal prep and an early bedtime help Monday feel easier.</li>
+            <li>Keep wake time close to weekday wake time.</li>
+            <li>Do a gentle family walk, errands, or meal prep.</li>
+            <li>Set up meals, clothes, and the coming week so Monday feels lighter.</li>
           </ul>
         </div>
-        <div class="quote">The big idea: keep weekends close enough to weekdays so Monday does not feel like sleep jet lag.</div>
+        <div class="quote">Weekends should support Monday, not undo it.</div>
       </section>
 
       <section id="tv" class="section">
         <h2>TV Rules</h2>
         <div class="card accent">
-          <strong>Shift earlier, do not remove.</strong>
-          <p class="muted">The JSX file’s TV plan is basically: use TV as a planned, limited slot, but keep it away from dinner and bedtime.</p>
+          <strong>Move screens earlier, do not make them the main event.</strong>
+          <p class="muted">Keep them as a planned slot, not as the thing that stretches dinner and pushes bedtime later.</p>
         </div>
 
         <table>
           <thead><tr><th>Time slot</th><th>Verdict</th><th>Rule</th></tr></thead>
           <tbody>
-            <tr><td>7:30–8:15 AM</td><td>✅ Best</td><td>Weekday morning screen window</td></tr>
-            <tr><td>5:50–6:25 PM</td><td>✅ Good</td><td>After-school decompression only</td></tr>
-            <tr><td>7:30–9:00 AM</td><td>✅ Treat</td><td>Weekend bigger screen window</td></tr>
-            <tr><td>3:00–3:45 PM</td><td>⚠ Optional</td><td>Weekend quiet rest content only</td></tr>
-            <tr><td>Dinner time</td><td>❌ Remove</td><td>No TV at the table</td></tr>
-            <tr><td>After 7 PM</td><td>❌ Never</td><td>Hard stop every day</td></tr>
+            <tr><td>Morning</td><td>✅ Best</td><td>Best time for a short screen slot if you keep it limited.</td></tr>
+            <tr><td>After daycare</td><td>✅ Optional</td><td>Short calming slot before outdoor play or dinner prep.</td></tr>
+            <tr><td>Dinner</td><td>❌ Remove</td><td>No TV at the table.</td></tr>
+            <tr><td>After 7 PM</td><td>❌ Never</td><td>Hard stop to protect sleep.</td></tr>
           </tbody>
         </table>
 
@@ -374,81 +465,53 @@
         </div>
       </section>
 
-      <section id="health" class="section">
-        <h2>Health</h2>
-        <div class="split">
-          <div class="mini">
-            <h4>👶 Child</h4>
-            <ul>
-              <li>Growth / height</li>
-              <li>Brain development</li>
-              <li>Nutrition for growth</li>
-              <li>Physical strength</li>
-              <li>Immune system</li>
-            </ul>
-          </div>
-          <div class="mini">
-            <h4>👨‍👩 Parents</h4>
-            <ul>
-              <li>Dad workout at 6:00–6:45 AM</li>
-              <li>Mom workout when feasible on office/WFH days</li>
-              <li>Protect parent sleep</li>
-              <li>Use batch cooking on Sundays</li>
-              <li>Keep chore roles clear</li>
-            </ul>
-          </div>
-        </div>
-        <div class="quote">A well-rested family is a calmer family. Your JSX file framed this as both child growth and parent load balance.</div>
-      </section>
-
       <section id="wins" class="section">
         <h2>Quick Wins</h2>
         <div class="checklist">
-          <label><input type="checkbox">Move TV away from dinner and bedtime.</label>
-          <label><input type="checkbox">Dim lights at 7:15 PM.</label>
-          <label><input type="checkbox">Bath at 7:30 PM.</label>
-          <label><input type="checkbox">Use the same two bedtime books.</label>
-          <label><input type="checkbox">Try gentle back tapping tonight.</label>
-          <label><input type="checkbox">Add a Saturday morning swim.</label>
-          <label><input type="checkbox">Set phone reminders for lights, bath, and books.</label>
+          <label><input type="checkbox">Move TV away from dinner.</label>
+          <label><input type="checkbox">Add Saturday morning swimming.</label>
+          <label><input type="checkbox">Keep mom’s prenatal / iron / enoxaparin schedule clinician-led.</label>
+          <label><input type="checkbox">Use one 20–30 minute investing block for dad after bedtime.</label>
+          <label><input type="checkbox">Use the same 2 books every night.</label>
+          <label><input type="checkbox">Start dim lights earlier.</label>
+          <label><input type="checkbox">Use gentle back tapping, then fade it.</label>
         </div>
-        <div class="quote">First 4 changes start tonight and cost almost nothing.</div>
+        <div class="quote">The first changes are: earlier TV, earlier calm-down, and a predictable bedtime sequence.</div>
       </section>
     </main>
 
     <aside class="panel">
-      <h3>Canvas summary</h3>
-      <p class="muted">This updated page is built from your conversation and the uploaded JSX file, so the extra icons, schedules, and “home page + tabs” structure are reflected here.</p>
+      <h3>Page summary</h3>
+      <p class="muted">This version keeps the sleep-first front page, but adds a pregnancy-safe family wellness layer and a more realistic schedule for the parents.</p>
 
       <h3>Best next step</h3>
       <div class="card">
-        <strong>Test one consistent routine for 2–3 weeks.</strong>
-        <p class="muted small">Make the evening boring and predictable, keep activity earlier, and avoid letting TV drift into dinner or late night.</p>
+        <strong>Use this as the new GitHub Pages index.html.</strong>
+        <p class="muted small">Replace the current file in your repo, commit it, then wait for GitHub Pages to rebuild.</p>
       </div>
 
-      <h3>Ideal family targets</h3>
+      <h3>Family targets</h3>
       <div class="card">
         <ul>
-          <li>Kid asleep by about 8:30–9:00 PM over time</li>
-          <li>Mom and dad get enough sleep too</li>
-          <li>Saturday swim stays in the morning</li>
-          <li>Playground time stays earlier, not late</li>
+          <li>Kid asleep earlier over time</li>
+          <li>Mom pregnancy wellness stays clinician-guided</li>
+          <li>Dad keeps workout and investing time</li>
+          <li>Meals get simpler and higher protein</li>
         </ul>
       </div>
 
-      <h3>UI notes</h3>
+      <h3>GitHub Pages note</h3>
       <div class="card">
         <ul>
-          <li>Front page focuses on sleep, not TV</li>
-          <li>TV lives in its own tab</li>
-          <li>Icons/logos are represented with emoji badges</li>
-          <li>Tabs match the JSX structure from the uploaded file</li>
+          <li>Keep only <strong>index.html</strong> for the live page</li>
+          <li>Delete duplicate HTML files later if needed</li>
+          <li>Refresh after deployment if you see cached 404s</li>
         </ul>
       </div>
     </aside>
   </div>
 
-  <div class="footer">Family Sleep Canvas v2 — shareable HTML page.</div>
+  <div class="footer">Family Sleep & Wellness Canvas v3 — updated for pregnancy, meals, workouts, and investment time.</div>
 </div>
 
 <script>
@@ -466,11 +529,12 @@
   function toggleAcc(btn){
     const box = btn.closest('.accordion');
     box.classList.toggle('open');
-    btn.querySelector('span:last-child').textContent = box.classList.contains('open') ? '▲' : '▼';
+    const indicator = btn.querySelector('span:last-child');
+    if (indicator) indicator.textContent = box.classList.contains('open') ? '▲' : '▼';
   }
 
   const actTabs = document.querySelectorAll('#actTabs button');
-  const actPanels = ['swim','martial','art','soccer'];
+  const actPanels = ['swim','martial','art','walk'];
   actTabs.forEach(btn => btn.addEventListener('click', () => {
     actTabs.forEach(b => b.classList.remove('active'));
     actPanels.forEach(id => document.getElementById(id).style.display = 'none');
