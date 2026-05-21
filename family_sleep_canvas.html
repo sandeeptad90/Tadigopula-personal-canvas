@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Sleep Canvas</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #cbd5e1;
+      --accent: #60a5fa;
+      --accent2: #34d399;
+      --border: #334155;
+      --chip: #1e293b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 40px;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(96,165,250,.16), rgba(52,211,153,.12));
+      border: 1px solid rgba(148,163,184,.25);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: clamp(30px, 4vw, 50px);
+      letter-spacing: -0.03em;
+    }
+    .sub {
+      color: var(--muted);
+      max-width: 78ch;
+      margin: 0 0 18px 0;
+      font-size: 1.02rem;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .chip {
+      background: rgba(30,41,59,.8);
+      border: 1px solid rgba(148,163,184,.2);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.92rem;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(17,24,39,.92);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: rgba(17,24,39,.88);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .panel h2, .panel h3 {
+      margin-top: 0;
+      letter-spacing: -0.02em;
+    }
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 700px) {
+      .kpi { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: rgba(31,41,55,.7);
+      border: 1px solid rgba(148,163,184,.2);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .num {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--accent2);
+    }
+    .label { color: var(--muted); font-size: .92rem; }
+    details {
+      background: rgba(31,41,55,.55);
+      border: 1px solid rgba(148,163,184,.2);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin: 12px 0;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    summary::marker { color: var(--accent); }
+    ul {
+      margin: 10px 0 0 18px;
+      color: var(--text);
+    }
+    li { margin: 6px 0; }
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 10px;
+      align-items: start;
+      background: rgba(15,23,42,.65);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .time {
+      font-weight: 800;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .muted { color: var(--muted); }
+    .quote {
+      border-left: 4px solid var(--accent2);
+      padding: 10px 14px;
+      margin: 12px 0;
+      background: rgba(16,185,129,.08);
+      border-radius: 10px;
+      color: #ecfeff;
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 18px;
+    }
+    .togglebar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .btn {
+      background: rgba(30,41,59,.95);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+    .btn.active {
+      background: rgba(96,165,250,.18);
+      border-color: rgba(96,165,250,.55);
+    }
+    .tab { display: none; }
+    .tab.active { display: block; }
+    .checklist label {
+      display: block;
+      margin: 8px 0;
+      padding: 10px 12px;
+      background: rgba(31,41,55,.6);
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 12px;
+    }
+    input[type="checkbox"] { transform: translateY(1px); margin-right: 10px; }
+    .small { font-size: .92rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Family Sleep Canvas</h1>
+      <p class="sub">
+        A shareable, interactive summary of the advice from the conversation: your 4-year-old’s sleep, the gentle soothing methods,
+        whether to involve a sleep doctor, and what “sleep training” can look like without trauma.
+      </p>
+      <div class="chips">
+        <span class="chip">Preschool sleep</span>
+        <span class="chip">Gentle routines</span>
+        <span class="chip">Working-parent schedule</span>
+        <span class="chip">Co-sleeping family</span>
+        <span class="chip">Sleep training options</span>
+      </div>
+    </section>
+
+    <nav class="nav">
+      <a href="#overview">Overview</a>
+      <a href="#family">Family plan</a>
+      <a href="#soothing">Soothing tips</a>
+      <a href="#doctor">Doctor?</a>
+      <a href="#training">Sleep training</a>
+      <a href="#takeaway">Takeaway</a>
+    </nav>
+
+    <div class="grid">
+      <main class="panel">
+        <section id="overview">
+          <h2>Conversation at a glance</h2>
+          <div class="kpi">
+            <div class="card">
+              <div class="num">4</div>
+              <div class="label">Years old, energetic, co-sleeping</div>
+            </div>
+            <div class="card">
+              <div class="num">60–90</div>
+              <div class="label">Minutes to fall asleep on many nights</div>
+            </div>
+            <div class="card">
+              <div class="num">2–3</div>
+              <div class="label">Weeks of consistency to test changes</div>
+            </div>
+          </div>
+          <div class="quote">
+            The core idea: this looks more like a schedule + stimulation + sleep-association problem than a “bad sleeper” problem.
+          </div>
+          <details open>
+            <summary>Main goal</summary>
+            <ul>
+              <li>Help him fall asleep faster without a harsh cry-it-out approach.</li>
+              <li>Reduce how much the bedtime depends on dad’s constant presence.</li>
+              <li>Protect the family’s sleep and energy too.</li>
+            </ul>
+          </details>
+        </section>
+
+        <section id="family">
+          <h2>Family plan that fits your work life</h2>
+          <div class="togglebar" role="tablist" aria-label="schedule tabs">
+            <button class="btn active" data-tab="weekday">Weekday routine</button>
+            <button class="btn" data-tab="weekend">Weekend routine</button>
+            <button class="btn" data-tab="rules">TV rules</button>
+            <button class="btn" data-tab="parents">Parents</button>
+          </div>
+
+          <div id="weekday" class="tab active">
+            <div class="timeline">
+              <div class="step"><div class="time">6:00</div><div><strong>Dad workout.</strong> Keep the morning exercise habit. Shower, prep, and leave on time.</div></div>
+              <div class="step"><div class="time">6:15–7:15</div><div><strong>Family morning flow.</strong> Wake mom, breakfast, kid ready, bags packed, low stress.</div></div>
+              <div class="step"><div class="time">9:00–5:30</div><div><strong>Daycare and nap.</strong> 60–90 minutes is fine; it changes bedtime pressure.</div></div>
+              <div class="step"><div class="time">5:45</div><div><strong>Home.</strong> Short outside play helps a lot; don’t make bedtime depend on “exhausting” him.</div></div>
+              <div class="step"><div class="time">6:30–7:15</div><div><strong>Dinner + calm time.</strong> Try to move TV away from dinner and make dinner more screen-free.</div></div>
+              <div class="step"><div class="time">8:30–9:30</div><div><strong>Bedtime wind-down.</strong> Bath, pajamas, 2 books, dim lights, one calm adult, no extra stimulation.</div></div>
+            </div>
+          </div>
+
+          <div id="weekend" class="tab">
+            <div class="timeline">
+              <div class="step"><div class="time">Wake</div><div><strong>Keep wake time close.</strong> Avoid sleeping much later than weekdays.</div></div>
+              <div class="step"><div class="time">Morning</div><div><strong>Swimming works well.</strong> Best earlier in the day rather than near bedtime.</div></div>
+              <div class="step"><div class="time">Afternoon</div><div><strong>Outdoor play + quiet time.</strong> Playground or park, then draw/read/puzzles.</div></div>
+              <div class="step"><div class="time">Evening</div><div><strong>Lower stimulation early.</strong> Screens off well before bed, calm family routine, same sleep cues.</div></div>
+            </div>
+          </div>
+
+          <div id="rules" class="tab">
+            <h3>TV rules tab</h3>
+            <div class="checklist">
+              <label><input type="checkbox" />Keep TV out of dinner whenever possible.</label>
+              <label><input type="checkbox" />Use short, scheduled screen time, not random extra minutes.</label>
+              <label><input type="checkbox" />No screens in the bedroom.</label>
+              <label><input type="checkbox" />Turn screens off at least 60 minutes before bed.</label>
+              <label><input type="checkbox" />Use TV as a planned slot, not the main front-page habit.</label>
+            </div>
+          </div>
+
+          <div id="parents" class="tab">
+            <h3>Parents’ corner</h3>
+            <ul>
+              <li>Dad: keep the 6:00–6:45 AM workout, then protect bedtime from becoming a 90-minute marathon.</li>
+              <li>Mom: cooking role stays, dad cleaning role stays — but use batch cooking and shared prep to reduce pressure.</li>
+              <li>Both parents: aim for enough sleep yourselves; the child’s plan only works if the adults are not running on fumes.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="soothing">
+          <h2>Gentle soothing methods</h2>
+          <details open>
+            <summary>What can help at bedtime</summary>
+            <ul>
+              <li>Slow back tapping or patting.</li>
+              <li>Gentle chest rubs or hair stroking.</li>
+              <li>Low fan or quiet white noise at a safe, low level.</li>
+              <li>Soft repeated phrases and dim lighting.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>What to avoid</summary>
+            <ul>
+              <li>Using touch forever as the only way to sleep.</li>
+              <li>Loud fan/white noise or strong airflow.</li>
+              <li>Overstimulating bedtime talk, extra books, or negotiation.</li>
+              <li>Trying to “wear him out” so hard that he becomes overtired.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>Best bedtime phrase</summary>
+            <div class="quote">“Your body worked hard today. Now it’s time for your brain and muscles to rest and grow strong.”</div>
+          </details>
+        </section>
+
+        <section id="doctor">
+          <h2>Should you reach out to a sleep doctor?</h2>
+          <details open>
+            <summary>Reasonable to try home changes first when…</summary>
+            <ul>
+              <li>He eventually sleeps.</li>
+              <li>He is active, growing, and mostly okay in the daytime.</li>
+              <li>There is no loud snoring, gasping, or breathing pause concern.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>Talk to a pediatrician or sleep specialist sooner if…</summary>
+            <ul>
+              <li>He snores heavily or pauses breathing.</li>
+              <li>Bedtime problems come with major daytime sleepiness or extreme behavior issues.</li>
+              <li>Sleep remains very hard despite 2–3 weeks of consistent routine changes.</li>
+            </ul>
+          </details>
+        </section>
+
+        <section id="training">
+          <h2>Sleep training, the gentle version</h2>
+          <details open>
+            <summary>Best fit for this family</summary>
+            <ul>
+              <li>Gradual independence rather than harsh cry-it-out.</li>
+              <li>Dad stays present, but becomes calm support instead of the “sleep engine.”</li>
+              <li>Reduce extra stimulation and sleep associations slowly.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>Simple progression</summary>
+            <ul>
+              <li>Night 1–3: less talking, fewer books, calmer touch.</li>
+              <li>Night 4–7: dad stays beside him quietly with less active soothing.</li>
+              <li>Night 8–14: more space, more verbal reassurance, less physical help.</li>
+            </ul>
+          </details>
+          <details>
+            <summary>Why this works</summary>
+            <ul>
+              <li>It teaches independent settling without abrupt separation.</li>
+              <li>It lowers bedtime battles.</li>
+              <li>It keeps the child emotionally safe while changing the habit.</li>
+            </ul>
+          </details>
+        </section>
+
+        <section id="takeaway">
+          <h2>Bottom line</h2>
+          <div class="quote">
+            The best path is usually: improve timing, lower stimulation, keep a consistent routine, and use gentle fading before considering formal sleep training.
+          </div>
+          <p class="small">
+            This canvas is meant to be shared with your wife as a practical family sleep guide.
+          </p>
+        </section>
+      </main>
+
+      <aside class="panel">
+        <h3>Tonight’s action plan</h3>
+        <div class="checklist">
+          <label><input type="checkbox" />Keep dinner calm and avoid TV during the meal.</label>
+          <label><input type="checkbox" />Use only 2 books tonight.</label>
+          <label><input type="checkbox" />Dim lights and reduce talking after bath.</label>
+          <label><input type="checkbox" />Try gentle back pats or hair strokes, then fade.</label>
+          <label><input type="checkbox" />Keep fan low, room cool, and noise gentle.</label>
+        </div>
+
+        <h3 style="margin-top:18px;">Best next step</h3>
+        <p class="muted">
+          Test one consistent routine for 2–3 weeks before deciding whether you need a sleep doctor.
+        </p>
+
+        <h3 style="margin-top:18px;">Ideal sleep target</h3>
+        <p class="muted">
+          For your current schedule, a realistic target is roughly asleep by 9:30–9:45 PM with a stable morning wake time.
+        </p>
+      </aside>
+    </div>
+
+    <div class="footer">
+      Generated as a shareable HTML canvas-style page for your family sleep plan.
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.btn[data-tab]');
+    const tabs = document.querySelectorAll('.tab');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        buttons.forEach(b => b.classList.remove('active'));
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
