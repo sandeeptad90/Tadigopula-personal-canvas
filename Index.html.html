@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Sleep Canvas v2</title>
+  <style>
+    :root{
+      --bg:#05080f; --surface:#0a0f1a; --card:#0e1520; --card2:#121c2e;
+      --border:#1a2540; --text:#e8f0fe; --muted:#6b7fa3; --faint:#1e2d45;
+      --gold:#f5c518; --blue:#3b9eff; --green:#2ecc71; --red:#e74c3c;
+      --orange:#f39c12; --purple:#9b59b6; --pink:#e91e8c; --teal:#1abc9c;
+      --indigo:#5c6bc0; --amber:#ffb300;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:radial-gradient(circle at top, #0b1220 0%, var(--bg) 60%);
+      color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.5;
+    }
+    .wrap{max-width:1200px; margin:0 auto; padding:20px 14px 36px}
+    .hero{
+      background:linear-gradient(135deg, #0a1628 0%, #05080f 100%);
+      border:1px solid var(--faint); border-radius:18px; padding:18px 18px 14px; margin-bottom:14px;
+      text-align:center; box-shadow:0 16px 40px rgba(0,0,0,.28);
+    }
+    .hero h1{margin:0; font-size:clamp(28px,4vw,46px); letter-spacing:-.04em}
+    .hero p{margin:8px auto 0; max-width:90ch; color:var(--muted)}
+    .badges{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px}
+    .badge{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:4px 10px; border-radius:999px; font-size:11px; font-weight:800;
+      letter-spacing:.4px; text-transform:uppercase; white-space:nowrap;
+      border:1px solid transparent;
+    }
+    .b-red{background:#e74c3c22;color:#ff7f73;border-color:#e74c3c44}
+    .b-green{background:#2ecc7122;color:#78e9a6;border-color:#2ecc7144}
+    .b-blue{background:#3b9eff22;color:#8cc7ff;border-color:#3b9eff44}
+    .b-gold{background:#f5c51822;color:#ffde67;border-color:#f5c51844}
+    .b-purple{background:#9b59b622;color:#cfa2ff;border-color:#9b59b644}
+    .b-teal{background:#1abc9c22;color:#7ae8d8;border-color:#1abc9c44}
+    .nav{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 16px}
+    .nav button{
+      background:var(--card); color:var(--text); border:1px solid var(--border);
+      border-radius:999px; padding:10px 14px; cursor:pointer; font-family:inherit; font-weight:800;
+    }
+    .nav button.active{border-color:var(--teal); background:#1abc9c1a}
+    .grid{display:grid; grid-template-columns:1.2fr .8fr; gap:14px}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+    .panel{
+      background:rgba(10,15,26,.92); border:1px solid var(--border); border-radius:16px;
+      padding:16px; box-shadow:0 12px 28px rgba(0,0,0,.18);
+    }
+    .section{display:none}
+    .section.active{display:block}
+    h2{margin:0 0 12px; letter-spacing:-.03em}
+    h3{margin:18px 0 10px}
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+    @media (max-width:720px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+    .kpi{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 12px 10px;
+    }
+    .kpi .lab{font-size:11px; color:var(--muted); text-transform:uppercase; font-weight:800; letter-spacing:1px}
+    .kpi .row{display:flex; align-items:center; gap:8px; margin-top:8px}
+    .now{font-size:12px; color:#ff9189; font-weight:800}
+    .goal{font-size:12px; color:#7dffb3; font-weight:800}
+    .val{font-size:18px; font-weight:900}
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:13px 14px; margin:10px 0;
+    }
+    .card.accent{border-left:4px solid var(--teal)}
+    .muted{color:var(--muted)}
+    .quote{
+      border-left:4px solid var(--teal); background:#1abc9c12; padding:12px 14px; border-radius:10px;
+      margin:10px 0; color:#ecfeff;
+    }
+    .small{font-size:.92rem}
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    @media (max-width:720px){ .grid2{grid-template-columns:1fr} }
+    .timeline{display:grid; gap:10px}
+    .step{
+      display:grid; grid-template-columns:92px 1fr; gap:10px; align-items:flex-start;
+      background:var(--card2); border:1px solid rgba(148,163,184,.16); border-radius:14px; padding:11px 12px;
+    }
+    .t{font-weight:900; color:var(--blue); white-space:nowrap}
+    .step strong{display:block; margin-bottom:2px}
+    .accordion{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin:10px 0;
+    }
+    .acc-head{
+      width:100%; text-align:left; background:transparent; border:0; color:var(--text);
+      padding:12px 14px; cursor:pointer; font:inherit; display:flex; justify-content:space-between; align-items:center;
+    }
+    .acc-head .left{display:flex; align-items:center; gap:10px}
+    .acc-body{display:none; padding:0 14px 14px; color:var(--muted)}
+    .accordion.open .acc-body{display:block}
+    .accordion.open{border-color:rgba(26,229,184,.35)}
+    ul{margin:8px 0 0 18px}
+    li{margin:6px 0}
+    .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0}
+    .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:#111827; font-size:12px}
+    .tabs2{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 12px}
+    .tabs2 button{background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:9px 12px; cursor:pointer; font-family:inherit; font-weight:800}
+    .tabs2 button.active{border-color:var(--blue); background:#3b9eff18}
+    table{width:100%; border-collapse:collapse; overflow:hidden; border-radius:14px}
+    th,td{border-bottom:1px solid rgba(148,163,184,.14); padding:10px 8px; text-align:left; vertical-align:top}
+    th{color:#b8cdfd; font-size:12px; text-transform:uppercase; letter-spacing:.8px}
+    td{color:var(--text)}
+    .checklist label{
+      display:block; padding:10px 12px; margin:8px 0; background:var(--card); border:1px solid var(--border); border-radius:12px;
+    }
+    input[type="checkbox"]{transform:translateY(1px); margin-right:10px}
+    .footer{color:var(--muted); font-size:.9rem; margin-top:12px}
+    .split{
+      display:grid; grid-template-columns:1fr 1fr; gap:12px;
+    }
+    @media (max-width:840px){ .split{grid-template-columns:1fr} }
+    .mini{
+      background:#10192a; border:1px solid rgba(148,163,184,.16); border-radius:14px; padding:12px;
+    }
+    .mini h4{margin:0 0 8px}
+    .tag{font-size:11px; font-weight:900; color:#fff; display:inline-block; padding:4px 8px; border-radius:999px; margin-bottom:8px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div style="font-size:42px">🌙 🛏️ 👨‍👩‍👦</div>
+    <h1>Family Sleep Canvas v2</h1>
+    <p>
+      This version folds in the extra JSX ideas from your uploaded file: the sleep HQ overview, touch techniques, activity ranking,
+      weekday/weekend schedules, TV rules, health guidance, and quick wins — all in one shareable page.
+    </p>
+    <div class="badges">
+      <span class="badge b-red">Current bedtime 10:30 PM</span>
+      <span class="badge b-green">Target asleep 8:30 PM</span>
+      <span class="badge b-gold">Gentle sleep training</span>
+      <span class="badge b-blue">Working-parent schedule</span>
+      <span class="badge b-purple">Co-sleeping family</span>
+      <span class="badge b-teal">Icons + tabs + logos</span>
+    </div>
+  </section>
+
+  <div class="nav" id="nav">
+    <button class="active" data-target="home">🌙 Sleep HQ</button>
+    <button data-target="touch">🤲 Techniques</button>
+    <button data-target="activity">🏊 Activities</button>
+    <button data-target="weekday">💼 Weekdays</button>
+    <button data-target="weekend">🏖️ Weekend</button>
+    <button data-target="tv">📺 TV Rules</button>
+    <button data-target="health">💪 Health</button>
+    <button data-target="wins">⚡ Quick Wins</button>
+  </div>
+
+  <div class="grid">
+    <main class="panel">
+      <section id="home" class="section active">
+        <h2>Sleep HQ</h2>
+        <div class="kpis">
+          <div class="kpi"><div class="lab">Bedtime</div><div class="row"><div><div class="now">NOW</div><div class="val">10:30 PM</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--green)">8:30 PM</div></div></div></div>
+          <div class="kpi"><div class="lab">Night Sleep</div><div class="row"><div><div class="now">NOW</div><div class="val">9 hrs</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--green)">11 hrs</div></div></div></div>
+          <div class="kpi"><div class="lab">Fall Asleep</div><div class="row"><div><div class="now">NOW</div><div class="val">90 min</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--blue)">15 min</div></div></div></div>
+          <div class="kpi"><div class="lab">Growth HGH</div><div class="row"><div><div class="now">NOW</div><div class="val">Missed</div></div><div>→</div><div><div class="goal">GOAL</div><div class="val" style="color:var(--gold)">Captured</div></div></div></div>
+        </div>
+
+        <div class="quote">
+          The big pattern in your file is simple: too much stimulation late in the day, bedtime starts too late, and the child has a strong sleep association with parent presence.
+        </div>
+
+        <div class="accordion open">
+          <button class="acc-head" type="button" onclick="toggleAcc(this)">
+            <span class="left"><span>🔍</span><strong>Why bedtime stretches so long</strong></span><span>▲</span>
+          </button>
+          <div class="acc-body">
+            <div class="pillrow">
+              <span class="pill">📺 TV during dinner</span>
+              <span class="pill">🕘 Routine starts late</span>
+              <span class="pill">🌅 Not enough sleep pressure</span>
+              <span class="pill">💡 Bright lights after 7 PM</span>
+              <span class="pill">🛏️ No sleep trigger trained</span>
+            </div>
+            <ul>
+              <li>Move TV away from dinner and bedtime.</li>
+              <li>Start wind-down much earlier.</li>
+              <li>Use a repeatable sleep cue: the same books, same order, same words.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Tonight’s ideal flow</h3>
+        <div class="timeline">
+          <div class="step"><div class="t">5:50p</div><div><strong>Home from pickup</strong><span class="muted">Arrive and immediately shift into low-stimulation mode.</span></div></div>
+          <div class="step"><div class="t">6:00p</div><div><strong>Outdoor play — 45–60 minutes</strong><span class="muted">Hard running, chasing, climbing, ball games.</span></div></div>
+          <div class="step"><div class="t">6:45p</div><div><strong>Dinner — no TV</strong><span class="muted">Use music, conversation, or calm background noise instead.</span></div></div>
+          <div class="step"><div class="t">7:15p</div><div><strong>All lights dim</strong><span class="muted">House enters sleep mode.</span></div></div>
+          <div class="step"><div class="t">7:30p</div><div><strong>Warm bath</strong><span class="muted">Cool-down after bath can support melatonin.</span></div></div>
+          <div class="step"><div class="t">8:00p</div><div><strong>Two books + white noise</strong><span class="muted">Keep it boring, predictable, and short.</span></div></div>
+          <div class="step"><div class="t">8:20p</div><div><strong>Touch technique</strong><span class="muted">Back tapping, hair stroking, or chest press.</span></div></div>
+          <div class="step"><div class="t">8:30p</div><div><strong>Target asleep</strong><span class="muted">This is the win you are trying to build toward.</span></div></div>
+        </div>
+      </section>
+
+      <section id="touch" class="section">
+        <h2>Touch Techniques</h2>
+        <p class="muted">These mirror the ideas from your JSX: rhythmic touch, soft pressure, low-stimulation sound, and gradual fading.</p>
+
+        <div class="split">
+          <div class="mini">
+            <h4>🤲 Back tapping / pat-pat method</h4>
+            <div class="tag" style="background:var(--gold)">Most effective</div>
+            <p class="small">
+              Use a slow, steady rhythm near the shoulder blades. The goal is to calm him, then slowly taper the taps until he no longer needs them.
+            </p>
+          </div>
+          <div class="mini">
+            <h4>💆 Hair / head stroking</h4>
+            <div class="tag" style="background:var(--purple)">Extremely powerful</div>
+            <p class="small">
+              Gentle forehead-to-crown strokes or eyebrow sweeps. Keep pressure feather-light and slow.
+            </p>
+          </div>
+          <div class="mini">
+            <h4>🫸 Chest / sternum press</h4>
+            <div class="tag" style="background:var(--teal)">Great for active kids</div>
+            <p class="small">
+              Slow, gentle palm pressure on the chest area can feel grounding and safe. Best as a brief settling cue, not a constant crutch.
+            </p>
+          </div>
+          <div class="mini">
+            <h4>🌬️ Fan / white noise</h4>
+            <div class="tag" style="background:var(--blue)">Non-negotiable buy</div>
+            <p class="small">
+              Use a low, safe level. Point airflow toward the wall or ceiling, not directly at him.
+            </p>
+          </div>
+          <div class="mini">
+            <h4>🗣️ Monotone story</h4>
+            <div class="tag" style="background:var(--orange)">Underrated</div>
+            <p class="small">
+              A flat, slow, boring voice reduces excitement. Think “quiet clouds, soft grass, gentle wind.”
+            </p>
+          </div>
+          <div class="mini">
+            <h4>🫁 Breathing sync</h4>
+            <div class="tag" style="background:var(--green)">Advanced</div>
+            <p class="small">
+              Lie beside him and breathe slowly so his body can match yours. Use it as a calm-down cue, not a performance.
+            </p>
+          </div>
+          <div class="mini">
+            <h4>🦶 Foot / leg massage</h4>
+            <div class="tag" style="background:var(--pink)">Starter ritual</div>
+            <p class="small">
+              Nice before books or as a transition into the bedroom. Make the ritual name consistent so the brain learns the pattern.
+            </p>
+          </div>
+        </div>
+
+        <div class="quote">
+          Best strategy from your file: use touch to help him settle, then fade it gradually so the body learns “I can fall asleep now.”
+        </div>
+      </section>
+
+      <section id="activity" class="section">
+        <h2>Activities That Help Sleep</h2>
+        <div class="tabs2" id="actTabs">
+          <button class="active" data-act="swim">🏊 Swimming</button>
+          <button data-act="martial">🥋 Taekwondo</button>
+          <button data-act="art">🎨 Art</button>
+          <button data-act="soccer">⚽ Soccer</button>
+        </div>
+        <div id="swim" class="card" style="display:block">
+          <strong>Swimming — best overall sleep activity</strong>
+          <p class="muted">Your file ranks it highest because it uses the whole body and is ideal on weekend mornings.</p>
+          <ul>
+            <li>Best time: 9:00–10:00 AM on Saturday.</li>
+            <li>Avoid late evening swims.</li>
+            <li>Great for energy burn and calm afternoon.</li>
+          </ul>
+        </div>
+        <div id="martial" class="card" style="display:none">
+          <strong>Taekwondo / martial arts</strong>
+          <p class="muted">Good for discipline, focus, and movement. Works well after school or on Saturday morning.</p>
+        </div>
+        <div id="art" class="card" style="display:none">
+          <strong>Painting / art class</strong>
+          <p class="muted">Great for creativity and fine motor skills, but it is not a strong sleep-tiring activity by itself.</p>
+        </div>
+        <div id="soccer" class="card" style="display:none">
+          <strong>Soccer / sports class</strong>
+          <p class="muted">Good running-heavy activity. Great if you can get it in earlier in the day.</p>
+        </div>
+
+        <h3>Sleep-impact ranking</h3>
+        <div class="timeline">
+          <div class="step"><div class="t">#1</div><div><strong>Swimming</strong><span class="muted">Best total-body effort and most sleep-friendly timing.</span></div></div>
+          <div class="step"><div class="t">#2</div><div><strong>Taekwondo</strong><span class="muted">Excellent for discipline + movement.</span></div></div>
+          <div class="step"><div class="t">#3</div><div><strong>Soccer</strong><span class="muted">Strong choice for running and coordination.</span></div></div>
+          <div class="step"><div class="t">#4</div><div><strong>Art</strong><span class="muted">Wonderful for development, less for sleep pressure.</span></div></div>
+        </div>
+      </section>
+
+      <section id="weekday" class="section">
+        <h2>Weekday Schedule</h2>
+        <table>
+          <thead>
+            <tr><th>Time</th><th>Who</th><th>Action</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>5:50a</td><td>Dad</td><td>Drive to gym</td><td>10 min commute</td></tr>
+            <tr><td>6:00a</td><td>Dad</td><td>Workout 45 min</td><td>Keep the morning routine</td></tr>
+            <tr><td>6:50a</td><td>Mom</td><td>Wake / prepare</td><td>Leave by 7:10 for DC commute</td></tr>
+            <tr><td>7:30a</td><td>Kid</td><td>Wake + TV slot</td><td>Move screens away from dinner; keep them earlier</td></tr>
+            <tr><td>5:30p</td><td>Dad + Kid</td><td>Daycare pickup</td><td>Transition home gently</td></tr>
+            <tr><td>6:00p</td><td>Kid</td><td>Outdoor play</td><td>Run, chase, climb, ball games</td></tr>
+            <tr><td>6:45p</td><td>Family</td><td>Dinner</td><td>No TV at the table</td></tr>
+            <tr><td>7:30p</td><td>Dad + Kid</td><td>Bath</td><td>Dim lights, calm voice</td></tr>
+            <tr><td>8:00p</td><td>Dad + Kid</td><td>Books + white noise</td><td>Same 2 books every night</td></tr>
+            <tr><td>8:30p</td><td>Kid</td><td>Sleep target</td><td>Gradual shift is the key</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="weekend" class="section">
+        <h2>Weekend Schedule</h2>
+        <div class="tabs2" id="wkTabs">
+          <button class="active" data-wk="sat">🏖️ Saturday</button>
+          <button data-wk="sun">☀️ Sunday</button>
+        </div>
+        <div id="sat" class="card" style="display:block">
+          <strong>Saturday</strong>
+          <ul>
+            <li>Morning swim around 9 AM.</li>
+            <li>After swim: lunch, calm time, then creative play.</li>
+            <li>Early dinner and early bedtime on swim days often work best.</li>
+          </ul>
+        </div>
+        <div id="sun" class="card" style="display:none">
+          <strong>Sunday</strong>
+          <ul>
+            <li>Keep wake time close to weekdays.</li>
+            <li>Park, nature walk, or outdoor time in the morning.</li>
+            <li>Meal prep and an early bedtime help Monday feel easier.</li>
+          </ul>
+        </div>
+        <div class="quote">The big idea: keep weekends close enough to weekdays so Monday does not feel like sleep jet lag.</div>
+      </section>
+
+      <section id="tv" class="section">
+        <h2>TV Rules</h2>
+        <div class="card accent">
+          <strong>Shift earlier, do not remove.</strong>
+          <p class="muted">The JSX file’s TV plan is basically: use TV as a planned, limited slot, but keep it away from dinner and bedtime.</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Time slot</th><th>Verdict</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td>7:30–8:15 AM</td><td>✅ Best</td><td>Weekday morning screen window</td></tr>
+            <tr><td>5:50–6:25 PM</td><td>✅ Good</td><td>After-school decompression only</td></tr>
+            <tr><td>7:30–9:00 AM</td><td>✅ Treat</td><td>Weekend bigger screen window</td></tr>
+            <tr><td>3:00–3:45 PM</td><td>⚠ Optional</td><td>Weekend quiet rest content only</td></tr>
+            <tr><td>Dinner time</td><td>❌ Remove</td><td>No TV at the table</td></tr>
+            <tr><td>After 7 PM</td><td>❌ Never</td><td>Hard stop every day</td></tr>
+          </tbody>
+        </table>
+
+        <div class="checklist" style="margin-top:12px">
+          <label><input type="checkbox">Keep screens out of the bedroom.</label>
+          <label><input type="checkbox">Turn them off at least 60 minutes before bed.</label>
+          <label><input type="checkbox">Use a consistent family media plan.</label>
+          <label><input type="checkbox">Do not use TV to stretch dinner or bedtime.</label>
+        </div>
+      </section>
+
+      <section id="health" class="section">
+        <h2>Health</h2>
+        <div class="split">
+          <div class="mini">
+            <h4>👶 Child</h4>
+            <ul>
+              <li>Growth / height</li>
+              <li>Brain development</li>
+              <li>Nutrition for growth</li>
+              <li>Physical strength</li>
+              <li>Immune system</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>👨‍👩 Parents</h4>
+            <ul>
+              <li>Dad workout at 6:00–6:45 AM</li>
+              <li>Mom workout when feasible on office/WFH days</li>
+              <li>Protect parent sleep</li>
+              <li>Use batch cooking on Sundays</li>
+              <li>Keep chore roles clear</li>
+            </ul>
+          </div>
+        </div>
+        <div class="quote">A well-rested family is a calmer family. Your JSX file framed this as both child growth and parent load balance.</div>
+      </section>
+
+      <section id="wins" class="section">
+        <h2>Quick Wins</h2>
+        <div class="checklist">
+          <label><input type="checkbox">Move TV away from dinner and bedtime.</label>
+          <label><input type="checkbox">Dim lights at 7:15 PM.</label>
+          <label><input type="checkbox">Bath at 7:30 PM.</label>
+          <label><input type="checkbox">Use the same two bedtime books.</label>
+          <label><input type="checkbox">Try gentle back tapping tonight.</label>
+          <label><input type="checkbox">Add a Saturday morning swim.</label>
+          <label><input type="checkbox">Set phone reminders for lights, bath, and books.</label>
+        </div>
+        <div class="quote">First 4 changes start tonight and cost almost nothing.</div>
+      </section>
+    </main>
+
+    <aside class="panel">
+      <h3>Canvas summary</h3>
+      <p class="muted">This updated page is built from your conversation and the uploaded JSX file, so the extra icons, schedules, and “home page + tabs” structure are reflected here.</p>
+
+      <h3>Best next step</h3>
+      <div class="card">
+        <strong>Test one consistent routine for 2–3 weeks.</strong>
+        <p class="muted small">Make the evening boring and predictable, keep activity earlier, and avoid letting TV drift into dinner or late night.</p>
+      </div>
+
+      <h3>Ideal family targets</h3>
+      <div class="card">
+        <ul>
+          <li>Kid asleep by about 8:30–9:00 PM over time</li>
+          <li>Mom and dad get enough sleep too</li>
+          <li>Saturday swim stays in the morning</li>
+          <li>Playground time stays earlier, not late</li>
+        </ul>
+      </div>
+
+      <h3>UI notes</h3>
+      <div class="card">
+        <ul>
+          <li>Front page focuses on sleep, not TV</li>
+          <li>TV lives in its own tab</li>
+          <li>Icons/logos are represented with emoji badges</li>
+          <li>Tabs match the JSX structure from the uploaded file</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="footer">Family Sleep Canvas v2 — shareable HTML page.</div>
+</div>
+
+<script>
+  const navButtons = Array.from(document.querySelectorAll('#nav button'));
+  const sections = Array.from(document.querySelectorAll('.section'));
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navButtons.forEach(b => b.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+
+  function toggleAcc(btn){
+    const box = btn.closest('.accordion');
+    box.classList.toggle('open');
+    btn.querySelector('span:last-child').textContent = box.classList.contains('open') ? '▲' : '▼';
+  }
+
+  const actTabs = document.querySelectorAll('#actTabs button');
+  const actPanels = ['swim','martial','art','soccer'];
+  actTabs.forEach(btn => btn.addEventListener('click', () => {
+    actTabs.forEach(b => b.classList.remove('active'));
+    actPanels.forEach(id => document.getElementById(id).style.display = 'none');
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.act).style.display = 'block';
+  }));
+
+  const wkTabs = document.querySelectorAll('#wkTabs button');
+  wkTabs.forEach(btn => btn.addEventListener('click', () => {
+    wkTabs.forEach(b => b.classList.remove('active'));
+    document.getElementById('sat').style.display = 'none';
+    document.getElementById('sun').style.display = 'none';
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.wk).style.display = 'block';
+  }));
+</script>
+</body>
+</html>
