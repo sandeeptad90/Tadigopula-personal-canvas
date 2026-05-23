@@ -2,145 +2,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Family Sleep & Wellness Canvas v3</title>
-  <style>
-    :root{
-      --bg:#05080f; --surface:#0a0f1a; --card:#0e1520; --card2:#121c2e;
-      --border:#1a2540; --text:#e8f0fe; --muted:#6b7fa3; --faint:#1e2d45;
-      --gold:#f5c518; --blue:#3b9eff; --green:#2ecc71; --red:#e74c3c;
-      --orange:#f39c12; --purple:#9b59b6; --pink:#e91e8c; --teal:#1abc9c;
-      --indigo:#5c6bc0; --amber:#ffb300;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background:radial-gradient(circle at top, #0b1220 0%, var(--bg) 60%);
-      color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      line-height:1.5;
-    }
-    .wrap{max-width:1200px; margin:0 auto; padding:20px 14px 36px}
-    .hero{
-      background:linear-gradient(135deg, #0a1628 0%, #05080f 100%);
-      border:1px solid var(--faint); border-radius:18px; padding:18px 18px 14px; margin-bottom:14px;
-      text-align:center; box-shadow:0 16px 40px rgba(0,0,0,.28);
-    }
-    .hero h1{margin:0; font-size:clamp(28px,4vw,46px); letter-spacing:-.04em}
-    .hero p{margin:8px auto 0; max-width:95ch; color:var(--muted)}
-    .badges{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px}
-    .badge{
-      display:inline-flex; align-items:center; gap:6px;
-      padding:4px 10px; border-radius:999px; font-size:11px; font-weight:800;
-      letter-spacing:.4px; text-transform:uppercase; white-space:nowrap;
-      border:1px solid transparent;
-    }
-    .b-red{background:#e74c3c22;color:#ff7f73;border-color:#e74c3c44}
-    .b-green{background:#2ecc7122;color:#78e9a6;border-color:#2ecc7144}
-    .b-blue{background:#3b9eff22;color:#8cc7ff;border-color:#3b9eff44}
-    .b-gold{background:#f5c51822;color:#ffde67;border-color:#f5c51844}
-    .b-purple{background:#9b59b622;color:#cfa2ff;border-color:#9b59b644}
-    .b-teal{background:#1abc9c22;color:#7ae8d8;border-color:#1abc9c44}
-    .nav{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 16px}
-    .nav button{
-      background:var(--card); color:var(--text); border:1px solid var(--border);
-      border-radius:999px; padding:10px 14px; cursor:pointer; font-family:inherit; font-weight:800;
-    }
-    .nav button.active{border-color:var(--teal); background:#1abc9c1a}
-    .grid{display:grid; grid-template-columns:1.2fr .8fr; gap:14px}
-    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
-    .panel{
-      background:rgba(10,15,26,.92); border:1px solid var(--border); border-radius:16px;
-      padding:16px; box-shadow:0 12px 28px rgba(0,0,0,.18);
-    }
-    .section{display:none}
-    .section.active{display:block}
-    h2{margin:0 0 12px; letter-spacing:-.03em}
-    h3{margin:18px 0 10px}
-    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
-    @media (max-width:720px){ .kpis{grid-template-columns:repeat(2,1fr)} }
-    .kpi{
-      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px 12px 10px;
-    }
-    .kpi .lab{font-size:11px; color:var(--muted); text-transform:uppercase; font-weight:800; letter-spacing:1px}
-    .kpi .row{display:flex; align-items:center; gap:8px; margin-top:8px}
-    .now{font-size:12px; color:#ff9189; font-weight:800}
-    .goal{font-size:12px; color:#7dffb3; font-weight:800}
-    .val{font-size:18px; font-weight:900}
-    .card{
-      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:13px 14px; margin:10px 0;
-    }
-    .card.accent{border-left:4px solid var(--teal)}
-    .muted{color:var(--muted)}
-    .quote{
-      border-left:4px solid var(--teal); background:#1abc9c12; padding:12px 14px; border-radius:10px;
-      margin:10px 0; color:#ecfeff;
-    }
-    .small{font-size:.92rem}
-    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    @media (max-width:720px){ .grid2{grid-template-columns:1fr} }
-    .timeline{display:grid; gap:10px}
-    .step{
-      display:grid; grid-template-columns:92px 1fr; gap:10px; align-items:flex-start;
-      background:var(--card2); border:1px solid rgba(148,163,184,.16); border-radius:14px; padding:11px 12px;
-    }
-    .t{font-weight:900; color:var(--blue); white-space:nowrap}
-    .step strong{display:block; margin-bottom:2px}
-    .accordion{
-      background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin:10px 0;
-    }
-    .acc-head{
-      width:100%; text-align:left; background:transparent; border:0; color:var(--text);
-      padding:12px 14px; cursor:pointer; font:inherit; display:flex; justify-content:space-between; align-items:center;
-    }
-    .acc-head .left{display:flex; align-items:center; gap:10px}
-    .acc-body{display:none; padding:0 14px 14px; color:var(--muted)}
-    .accordion.open .acc-body{display:block}
-    .accordion.open{border-color:rgba(26,229,184,.35)}
-    ul{margin:8px 0 0 18px}
-    li{margin:6px 0}
-    .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0}
-    .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:#111827; font-size:12px}
-    .tabs2{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 12px}
-    .tabs2 button{background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:10px; padding:9px 12px; cursor:pointer; font-family:inherit; font-weight:800}
-    .tabs2 button.active{border-color:var(--blue); background:#3b9eff18}
-    table{width:100%; border-collapse:collapse; overflow:hidden; border-radius:14px}
-    th,td{border-bottom:1px solid rgba(148,163,184,.14); padding:10px 8px; text-align:left; vertical-align:top}
-    th{color:#b8cdfd; font-size:12px; text-transform:uppercase; letter-spacing:.8px}
-    td{color:var(--text)}
-    .checklist label{
-      display:block; padding:10px 12px; margin:8px 0; background:var(--card); border:1px solid var(--border); border-radius:12px;
-    }
-    input[type="checkbox"]{transform:translateY(1px); margin-right:10px}
-    .footer{color:var(--muted); font-size:.9rem; margin-top:12px}
-    .split{
-      display:grid; grid-template-columns:1fr 1fr; gap:12px;
-    }
-    @media (max-width:840px){ .split{grid-template-columns:1fr} }
-    .mini{
-      background:#10192a; border:1px solid rgba(148,163,184,.16); border-radius:14px; padding:12px;
-    }
-    .mini h4{margin:0 0 8px}
-    .tag{font-size:11px; font-weight:900; color:#fff; display:inline-block; padding:4px 8px; border-radius:999px; margin-bottom:8px}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Family Sleep & Wellness Canvas v4</title>
+<style>
+  :root{
+    --bg:#05080f;
+    --surface:#0a0f1a;
+    --card:#0e1520;
+    --card2:#121c2e;
+    --border:#1a2540;
+    --text:#e8f0fe;
+    --muted:#9eb0d0;
+    --faint:#1e2d45;
+    --gold:#f5c518;
+    --blue:#3b9eff;
+    --green:#2ecc71;
+    --red:#e74c3c;
+    --orange:#f39c12;
+    --purple:#9b59b6;
+    --pink:#e91e8c;
+    --teal:#1abc9c;
+    --indigo:#5c6bc0;
+    --amber:#ffb300;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:radial-gradient(circle at top, #0b1220 0%, var(--bg) 60%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:1220px; margin:0 auto; padding:18px 14px 34px}
+  .hero{
+    background:linear-gradient(135deg, #0a1628 0%, #05080f 100%);
+    border:1px solid var(--faint);
+    border-radius:20px;
+    padding:20px 18px 16px;
+    margin-bottom:14px;
+    box-shadow:0 16px 40px rgba(0,0,0,.28);
+  }
+  .hero h1{
+    margin:0;
+    font-size:clamp(28px,4vw,46px);
+    letter-spacing:-.04em;
+  }
+  .hero p{
+    margin:8px 0 0;
+    max-width:110ch;
+    color:var(--muted);
+  }
+  .badges{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+  .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    white-space:nowrap;
+    border:1px solid transparent;
+  }
+  .b-red{background:#e74c3c22;color:#ff7f73;border-color:#e74c3c44}
+  .b-green{background:#2ecc7122;color:#78e9a6;border-color:#2ecc7144}
+  .b-blue{background:#3b9eff22;color:#8cc7ff;border-color:#3b9eff44}
+  .b-gold{background:#f5c51822;color:#ffde67;border-color:#f5c51844}
+  .b-purple{background:#9b59b622;color:#cfa2ff;border-color:#9b59b644}
+  .b-teal{background:#1abc9c22;color:#7ae8d8;border-color:#1abc9c44}
+
+  .nav{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin:14px 0 16px;
+  }
+  .nav button{
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:10px 14px;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:800;
+  }
+  .nav button.active{
+    border-color:var(--teal);
+    background:#1abc9c1a;
+  }
+
+  .shell{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .panel{
+    background:rgba(10,15,26,.92);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:16px;
+    box-shadow:0 12px 28px rgba(0,0,0,.18);
+  }
+  .section{display:none}
+  .section.active{display:block}
+  h2{margin:0 0 12px; letter-spacing:-.03em}
+  h3{margin:18px 0 10px}
+
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+  @media (max-width:780px){ .kpis{grid-template-columns:repeat(2,1fr)} }
+  .kpi{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:12px;
+  }
+  .kpi .lab{
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    font-weight:800;
+    letter-spacing:1px;
+  }
+  .kpi .row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:8px;
+  }
+  .now{font-size:12px; color:#ff9189; font-weight:800}
+  .goal{font-size:12px; color:#7dffb3; font-weight:800}
+  .val{font-size:18px; font-weight:900}
+  .quote{
+    border-left:4px solid var(--teal);
+    background:#1abc9c12;
+    padding:12px 14px;
+    border-radius:10px;
+    margin:10px 0;
+    color:#ecfeff;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:13px 14px;
+    margin:10px 0;
+  }
+  .card.accent{border-left:4px solid var(--teal)}
+  .muted{color:var(--muted)}
+  .small{font-size:.92rem}
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width:900px){ .split{grid-template-columns:1fr} }
+  .mini{
+    background:#10192a;
+    border:1px solid rgba(148,163,184,.16);
+    border-radius:14px;
+    padding:12px;
+  }
+  .mini h4{margin:0 0 8px}
+  .tag{
+    font-size:11px;
+    font-weight:900;
+    color:#fff;
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:999px;
+    margin-bottom:8px;
+  }
+  .tabs2{display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 12px}
+  .tabs2 button{
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:9px 12px;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:800;
+  }
+  .tabs2 button.active{border-color:var(--blue); background:#3b9eff18}
+  .timeline{display:grid; gap:10px}
+  .step{
+    display:grid;
+    grid-template-columns:92px 1fr;
+    gap:10px;
+    align-items:flex-start;
+    background:var(--card2);
+    border:1px solid rgba(148,163,184,.16);
+    border-radius:14px;
+    padding:11px 12px;
+  }
+  .t{font-weight:900; color:var(--blue); white-space:nowrap}
+  .step strong{display:block; margin-bottom:2px}
+
+  .accordion{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+    margin:10px 0;
+  }
+  .acc-head{
+    width:100%;
+    text-align:left;
+    background:transparent;
+    border:0;
+    color:var(--text);
+    padding:12px 14px;
+    cursor:pointer;
+    font:inherit;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .acc-head .left{display:flex; align-items:center; gap:10px}
+  .acc-body{display:none; padding:0 14px 14px; color:var(--muted)}
+  .accordion.open .acc-body{display:block}
+  .accordion.open{border-color:rgba(26,229,184,.35)}
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+    border-radius:14px;
+  }
+  th,td{
+    border-bottom:1px solid rgba(148,163,184,.14);
+    padding:10px 8px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{
+    color:#b8cdfd;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+  }
+  td{color:var(--text)}
+
+  ul{margin:8px 0 0 18px}
+  li{margin:6px 0}
+
+  .checklist label{
+    display:block;
+    padding:10px 12px;
+    margin:8px 0;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+  }
+  input[type="checkbox"]{transform:translateY(1px); margin-right:10px}
+  .pillrow{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0}
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid var(--border);
+    background:#111827;
+    font-size:12px;
+  }
+  .footer{
+    color:var(--muted);
+    font-size:.9rem;
+    margin-top:12px;
+  }
+  .tbanner{
+    background:linear-gradient(135deg,#2980b9,#1a5276);
+    border-radius:13px;
+    padding:14px;
+    color:white;
+    margin-bottom:12px;
+  }
+  .tbanner h3{font-size:14px; font-weight:800; margin-bottom:3px}
+  .tnum{font-size:30px; font-weight:900; margin-bottom:3px}
+  .tbanner p{font-size:11px; opacity:0.9}
+  .mcrd{
+    background:white;
+    border-radius:13px;
+    margin-bottom:10px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  }
+  .mhdr{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 13px;
+    border-bottom:1px solid #f0f0f0;
+    flex-wrap:wrap;
+    gap:4px;
+  }
+  .mhl{font-size:13px; font-weight:700; color:#111827}
+  .mt{font-size:10px; color:#999}
+  .mpb{color:white; font-size:11px; font-weight:800; padding:2px 9px; border-radius:18px}
+  .mi{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 13px;
+    border-bottom:1px dashed #f5f5f5;
+    font-size:13px;
+    gap:10px;
+    color:#111827;
+    line-height:1.55;
+  }
+  .mi:last-child{border-bottom:none}
+  .mip{font-weight:700; flex-shrink:0}
+  .infobox{
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:12px;
+    font-size:12px;
+    line-height:1.7;
+  }
+  .infobox h3{font-size:14px; font-weight:800; margin-bottom:6px}
+  .warn{background:#fde8ec; border-left:4px solid #c0557a; color:#7b1c3a}
+  .warn h3{color:#c0557a}
+  .good{background:#f0fdf4; border-left:4px solid #4CAF8C; color:#14532d}
+  .good h3{color:#27AE60}
+  .caution{background:#fff8e1; border-left:4px solid #f59e0b; color:#78350f}
+  .caution h3{color:#d97706}
+  .purple{background:#f5f0ff; border-left:4px solid #9B59B6; color:#4a1d96}
+  .purple h3{color:#7B68EE}
+  .blue{background:#e8f4ff; border-left:4px solid #2980b9; color:#1a3a5c}
+  .blue h3{color:#2980b9}
+
+  .drink-card{
+    background:white;
+    border-radius:13px;
+    margin-bottom:12px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  }
+  .drink-hdr{
+    padding:11px 14px;
+    font-size:14px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .drink-row{
+    padding:14px 14px;
+    border-bottom:1px solid #f0f0f0;
+    font-size:13px;
+    color:#1f2937;
+    line-height:1.7;
+  }
+  .drink-row:last-child{border-bottom:none}
+  .drink-row strong{
+    display:block;
+    font-size:14px;
+    margin-bottom:3px;
+    color:#111827;
+  }
+  .verdict-safe{color:#27AE60; font-weight:900; font-size:12px}
+  .verdict-caution{color:#B7791F; font-weight:900; font-size:12px}
+  .verdict-avoid{color:#E05A7A; font-weight:900; font-size:12px}
+  .water-timeline{
+    padding:8px 14px;
+    border-bottom:1px dashed #bae6fd;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    font-size:13px;
+    color:#111827;
+    line-height:1.6;
+  }
+  .water-timeline:last-child{border-bottom:none}
+  .wtime{font-weight:800; color:#0369a1; width:78px; flex-shrink:0; font-size:11px}
+  .avoid-item,.ok-item{
+    display:flex; gap:8px; padding:8px 13px; border-bottom:1px dashed #f5f5f5; font-size:13px; align-items:flex-start; line-height:1.6;
+  }
+  .avoid-item:last-child,.ok-item:last-child{border-bottom:none}
+
+  @media (max-width:720px){
+    .step{grid-template-columns:1fr}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .hero h1{font-size:24px}
+  }
+</style>
 </head>
 <body>
 <div class="wrap">
   <section class="hero">
-    <div style="font-size:42px">🌙 🛏️ 👨‍👩‍👦 🤰</div>
-    <h1>Family Sleep & Wellness Canvas v3</h1>
-    <p>
-      Updated with the child-sleep plan, the mother’s pregnancy and medication-aware wellness section, family nutrition,
-      father workout + trading blocks, and a cleaner tabbed dashboard for your GitHub Pages site.
-    </p>
+    <div class="hero-top">
+      <div>
+        <h1>Family Sleep & Wellness Canvas v4</h1>
+        <p>
+          A single family dashboard combining the sleep plan, parenting schedule, pregnancy wellness, nutrition, hydration,
+          kidney-safe food guidance, and the more detailed health sections from the second file.
+        </p>
+      </div>
+    </div>
     <div class="badges">
       <span class="badge b-red">Mom 2 months pregnant</span>
       <span class="badge b-green">Gentle sleep plan</span>
-      <span class="badge b-gold">Food + hydration</span>
+      <span class="badge b-gold">Family nutrition</span>
       <span class="badge b-blue">Workout + work blocks</span>
       <span class="badge b-purple">Co-sleeping family</span>
-      <span class="badge b-teal">Deploy to Pages</span>
+      <span class="badge b-teal">Responsive tabs</span>
     </div>
   </section>
 
@@ -149,14 +410,17 @@
     <button data-target="touch">🤲 Techniques</button>
     <button data-target="pregnancy">🤰 Pregnancy</button>
     <button data-target="nutrition">🥗 Nutrition</button>
+    <button data-target="water">💧 Drinks</button>
+    <button data-target="kidney">🪨 Kidney Safe</button>
     <button data-target="activity">🏊 Activities</button>
     <button data-target="weekday">💼 Weekdays</button>
     <button data-target="weekend">🏖️ Weekend</button>
     <button data-target="tv">📺 TV Rules</button>
+    <button data-target="safety">🛡️ Safety</button>
     <button data-target="wins">⚡ Quick Wins</button>
   </div>
 
-  <div class="grid">
+  <div class="shell">
     <main class="panel">
       <section id="home" class="section active">
         <h2>Sleep HQ</h2>
@@ -168,38 +432,38 @@
         </div>
 
         <div class="quote">
-          The main pattern is still the same: late stimulation, a late wind-down, and strong parent-dependent sleep habits are making bedtime stretch long.
+          Main pattern: late stimulation, a late wind-down, and parent-dependent sleep habits are making bedtime stretch long.
         </div>
 
         <div class="accordion open">
           <button class="acc-head" type="button" onclick="toggleAcc(this)">
-            <span class="left"><span>🔍</span><strong>What is most important now</strong></span><span>▲</span>
+            <span class="left"><span>🔍</span><strong>What matters most tonight</strong></span><span>▲</span>
           </button>
           <div class="acc-body">
             <div class="pillrow">
-              <span class="pill">📺 TV moved earlier</span>
-              <span class="pill">🕘 bedtime shifted earlier gradually</span>
-              <span class="pill">🌅 daytime activity before night</span>
-              <span class="pill">🤲 gentle fading not harsh training</span>
-              <span class="pill">🤰 pregnancy-safe family planning</span>
+              <span class="pill">📺 TV earlier</span>
+              <span class="pill">🕘 Calm wind-down</span>
+              <span class="pill">🤲 Fade sleep support</span>
+              <span class="pill">🌙 Dim lights</span>
+              <span class="pill">🏃 Daytime movement</span>
             </div>
             <ul>
-              <li>Use the same routine nightly.</li>
-              <li>Make the evening boring and predictable.</li>
-              <li>Keep the child’s sleep plan and mom’s pregnancy needs in one family dashboard.</li>
+              <li>Keep dinner screen-free.</li>
+              <li>Use the same 2 bedtime books.</li>
+              <li>Help him settle, then slowly reduce the touch over time.</li>
             </ul>
           </div>
         </div>
 
-        <h3>Tonight’s ideal flow</h3>
+        <h3>Ideal evening flow</h3>
         <div class="timeline">
-          <div class="step"><div class="t">5:50p</div><div><strong>Home from pickup</strong><span class="muted">Arrive and switch into low-stimulation mode.</span></div></div>
-          <div class="step"><div class="t">6:00p</div><div><strong>Outdoor play — 45–60 minutes</strong><span class="muted">Chase, climb, jump, park time.</span></div></div>
-          <div class="step"><div class="t">6:45p</div><div><strong>Dinner — no TV</strong><span class="muted">Family conversation or calm music instead.</span></div></div>
-          <div class="step"><div class="t">7:30p</div><div><strong>Bath + pajamas</strong><span class="muted">Dim lights and reduce energy.</span></div></div>
-          <div class="step"><div class="t">8:00p</div><div><strong>Two books + low noise</strong><span class="muted">Repeat the same books and words.</span></div></div>
-          <div class="step"><div class="t">8:15p</div><div><strong>Gentle touch cue</strong><span class="muted">Back tapping, hair strokes, or chest rubs.</span></div></div>
-          <div class="step"><div class="t">8:30p</div><div><strong>Target asleep</strong><span class="muted">Aim to reach this gradually over weeks, not overnight.</span></div></div>
+          <div class="step"><div class="t">5:50p</div><div><strong>Home from pickup</strong><span class="muted">Immediate transition to low-stimulation mode.</span></div></div>
+          <div class="step"><div class="t">6:00p</div><div><strong>Outdoor play</strong><span class="muted">45–60 minutes of movement before dinner.</span></div></div>
+          <div class="step"><div class="t">6:45p</div><div><strong>Dinner</strong><span class="muted">No TV at the table.</span></div></div>
+          <div class="step"><div class="t">7:30p</div><div><strong>Bath + pajamas</strong><span class="muted">Dim lights, warm water, calm voice.</span></div></div>
+          <div class="step"><div class="t">8:00p</div><div><strong>2 books + white noise</strong><span class="muted">Short and repetitive is best.</span></div></div>
+          <div class="step"><div class="t">8:15p</div><div><strong>Gentle touch cue</strong><span class="muted">Back pat, hair stroke, or chest rub, then fade.</span></div></div>
+          <div class="step"><div class="t">8:30p</div><div><strong>Target asleep</strong><span class="muted">Shift this gradually over weeks.</span></div></div>
         </div>
       </section>
 
@@ -211,59 +475,83 @@
           <div class="mini">
             <h4>🤲 Back tapping / pat-pat method</h4>
             <div class="tag" style="background:var(--gold)">Most useful</div>
-            <p class="small">
-              Slow, steady pats near the shoulder blades or upper back can be calming. Keep the rhythm boring and predictable.
-            </p>
+            <p class="small">Slow, steady pats near the shoulder blades or upper back can be calming. Keep the rhythm boring and predictable.</p>
           </div>
           <div class="mini">
             <h4>💆 Hair / head stroking</h4>
             <div class="tag" style="background:var(--purple)">Very calming</div>
-            <p class="small">
-              Gentle forehead-to-crown strokes or smoothing the hair can help many children settle.
-            </p>
+            <p class="small">Gentle forehead-to-crown strokes or smoothing the hair can help many children settle.</p>
           </div>
           <div class="mini">
             <h4>🫸 Chest / sternum press</h4>
             <div class="tag" style="background:var(--teal)">Grounding cue</div>
-            <p class="small">
-              Slow, light hand pressure on the chest or upper body can feel reassuring. Use it as a brief settle cue, not as a long crutch.
-            </p>
+            <p class="small">Slow, light hand pressure on the chest or upper body can feel reassuring. Use it as a brief settle cue, not as a long crutch.</p>
           </div>
           <div class="mini">
             <h4>🌬️ Fan / white noise</h4>
             <div class="tag" style="background:var(--blue)">Low and safe</div>
-            <p class="small">
-              Keep airflow soft and point the fan away from the face. The goal is a calm background hum, not strong wind.
-            </p>
+            <p class="small">Keep airflow soft and point the fan away from the face. The goal is a calm background hum, not strong wind.</p>
           </div>
           <div class="mini">
             <h4>🗣️ Monotone story</h4>
             <div class="tag" style="background:var(--orange)">Underrated</div>
-            <p class="small">
-              Use short, repetitive, boring phrases. The calmer the voice, the better the body can switch off.
-            </p>
+            <p class="small">Use short, repetitive, boring phrases. The calmer the voice, the better the body can switch off.</p>
           </div>
           <div class="mini">
             <h4>🫁 Breathing sync</h4>
             <div class="tag" style="background:var(--green)">Advanced</div>
-            <p class="small">
-              Lie beside him and breathe slowly so his body copies your rhythm. Great for active or anxious children.
-            </p>
+            <p class="small">Lie beside him and breathe slowly so his body copies your rhythm. Great for active or anxious children.</p>
           </div>
         </div>
 
-        <div class="quote">
-          Best strategy: help him settle with touch, then slowly reduce the touch over time so sleep no longer depends on it.
-        </div>
+        <div class="quote">Best strategy: help him settle with touch, then slowly reduce the touch over time so sleep no longer depends on it.</div>
       </section>
 
       <section id="pregnancy" class="section">
         <h2>Pregnancy</h2>
         <div class="card accent">
-          <strong>Important safety note</strong>
-          <p class="muted">
-            Because mom is pregnant, on a prescribed blood thinner, and has splenomegaly, any medication or exercise change should be cleared with her OB / hematology team first.
-          </p>
+          <strong>Safety first</strong>
+          <p class="muted">Pregnancy with blood-thinner treatment and a spleen issue should stay clinician-guided. This section keeps the advice gentle and conservative.</p>
+        </div>
+
+        <div class="infobox caution">
+          <h3>Trimester Movement Guidance</h3>
+          <p>High-risk pregnancies should prioritize consistency, circulation and fatigue management instead of aggressive fitness goals.</p>
+          <p>Short gentle walks and frequent movement breaks are usually safer than long intense sessions.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header gradient-blue">
+            <h2>Daily Steps Guidance</h2>
+            <p>Split movement into smaller sessions</p>
+          </div>
+
+          <div class="row">
+            <div class="num">T1</div>
+            <div>
+              <h4>1st Trimester</h4>
+              <p>3,000–4,000 steps daily split across two short gentle walks. Rest is equally important during early pregnancy.</p>
+              <span class="badge">Gentle only</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="num">T2</div>
+            <div>
+              <h4>2nd Trimester</h4>
+              <p>Usually the safest trimester for light exercise if approved by OB/MFM. Swimming and prenatal mobility may be added.</p>
+              <span class="badge">Most active phase</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="num">T3</div>
+            <div>
+              <h4>3rd Trimester</h4>
+              <p>Scale movement back again as balance changes and fatigue increases. Focus on circulation and comfort.</p>
+              <span class="badge">Short walks only</span>
+            </div>
+          </div>
         </div>
 
         <div class="split">
@@ -301,7 +589,6 @@
           </summary>
           <div class="acc-body">
             <p>
-              I turned this into a “hydration / smoothie / juice” module instead of a detox claim.
               Whole fruit, vegetables, water, and a balanced meal are the main focus.
             </p>
             <ul>
@@ -313,40 +600,242 @@
         </details>
       </section>
 
+      
       <section id="nutrition" class="section">
         <h2>Nutrition</h2>
         <div class="quote">
-          This section turns the house into a meal rhythm: protein at each meal, produce daily, and easy planning for working parents.
+          This section turns the house into a meal rhythm: protein at each meal, produce daily, steady hydration, and easy planning for working parents.
         </div>
 
-        <h3>Family protein rotation</h3>
-        <table>
-          <thead>
-            <tr><th>Food</th><th>Best use</th><th>Notes</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Chicken</td><td>Lunch or dinner</td><td>Lean, easy for meal prep.</td></tr>
-            <tr><td>Fish</td><td>2–3x/week</td><td>Use cooked, well-handled fish; pregnancy-safe preparation matters.</td></tr>
-            <tr><td>Goat</td><td>Weekend meal</td><td>Great for family rotation when cooked well.</td></tr>
-            <tr><td>Paneer</td><td>Veg meal option</td><td>Quick protein for breakfasts, lunch boxes, or dinner.</td></tr>
-            <tr><td>Eggs / beans / lentils</td><td>Breakfast or lunch</td><td>Simple protein boosters for the whole family.</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Simple day template</h3>
-        <div class="timeline">
-          <div class="step"><div class="t">Breakfast</div><div><strong>Protein + fruit</strong><span class="muted">Example: eggs + toast + fruit, or paneer + fruit, or yogurt + banana.</span></div></div>
-          <div class="step"><div class="t">Lunch</div><div><strong>Rice / roti + protein + veg</strong><span class="muted">Example: chicken, fish, goat, paneer, dal, or beans with vegetables.</span></div></div>
-          <div class="step"><div class="t">Snack</div><div><strong>Fruit or nuts</strong><span class="muted">Apple, berries, banana, orange, or a simple nut portion.</span></div></div>
-          <div class="step"><div class="t">Dinner</div><div><strong>Light but complete</strong><span class="muted">Protein, vegetables, and a modest carb so bedtime is easier.</span></div></div>
+        <div class="tbanner">
+          <h3>Daily Protein Target - Pregnancy</h3>
+          <div class="tnum">90-100g</div>
+          <p>
+            Non-pregnant target was 65-75g + about 25g extra for baby growth<br>
+            Spread across 5-6 small meals to manage nausea and energy<br>
+            Kidney stone history: keep UNDER 100g, food only - no powders
+          </p>
         </div>
 
-        <h3>Family meal rhythm</h3>
-        <div class="checklist">
-          <label><input type="checkbox">Prep 1–2 proteins on Sunday.</label>
-          <label><input type="checkbox">Pack fruit into the weekday bag the night before.</label>
-          <label><input type="checkbox">Keep dinner lighter than lunch when bedtime matters.</label>
-          <label><input type="checkbox">Use juice as a small extra, not the main nutrition source.</label>
+        <div class="infobox caution">
+          <h3>Kidney Stone Rule for Protein</h3>
+          <p><strong>Get protein from food only</strong> - no whey or protein powders.</p>
+          <p><strong>Animal protein max:</strong> 1 serving per day (about 3-4 oz) unless her doctor says otherwise.</p>
+          <p><strong>Drink water with every single meal and snack</strong> to keep urine diluted.</p>
+          <p><strong>Add lemon or lime to water daily</strong> because citrate helps prevent stones.</p>
+          <p><strong>Food-first strategy:</strong> protein from yogurt, eggs, dal, paneer, tofu, lentils, chickpeas, fish, chicken, goat and milk.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header gradient-green">
+            <h2>Meal-by-Meal Protein Plan</h2>
+            <p>Built to stay under 100g and spread across the day</p>
+          </div>
+
+          <div class="mcrd" style="margin:0;border-radius:0;box-shadow:none;">
+            <div class="mhdr"><div class="mhl">Breakfast</div><div style="display:flex;gap:6px;align-items:center;"><span class="mt">7:00-8:00 AM</span><span class="mpb" style="background:#4CAF8C;">~25g</span></div></div>
+            <div class="mi"><span>Greek Yogurt plain 1 cup (Fage brand)</span><span class="mip">10g</span></div>
+            <div class="mi"><span>2 Boiled Eggs or Moong Dal Chilla (2)</span><span class="mip">12g</span></div>
+            <div class="mi"><span>Whole wheat toast with avocado (1 slice)</span><span class="mip">3g</span></div>
+            <div class="mi"><span>Drink: 16 oz lemon water first thing (kidney stone prevention)</span><span></span></div>
+          </div>
+
+          <div class="mcrd" style="margin:0;border-radius:0;box-shadow:none;">
+            <div class="mhdr"><div class="mhl">Mid-Morning Snack</div><div style="display:flex;gap:6px;align-items:center;"><span class="mt">10:30 AM</span><span class="mpb" style="background:#7B68EE;">~12g</span></div></div>
+            <div class="mi"><span>Roasted Pumpkin Seeds (not almonds)</span><span class="mip">5g</span></div>
+            <div class="mi"><span>Low-fat Cottage Cheese 1/4 cup</span><span class="mip">7g</span></div>
+            <div class="mi"><span>1 Banana or Apple</span><span class="mip">1g</span></div>
+            <div class="mi"><span>Drink: 12 oz plain water</span><span></span></div>
+          </div>
+
+          <div class="mcrd" style="margin:0;border-radius:0;box-shadow:none;">
+            <div class="mhdr"><div class="mhl">Lunch</div><div style="display:flex;gap:6px;align-items:center;"><span class="mt">1:00 PM</span><span class="mpb" style="background:#E05A7A;">~22g</span></div></div>
+            <div class="mi"><span>Red Lentil Dal or Chole (1 cup)</span><span class="mip">9g</span></div>
+            <div class="mi"><span>Paneer 50g in light sabzi</span><span class="mip">9g</span></div>
+            <div class="mi"><span>1 Roti or small portion brown rice</span><span class="mip">3g</span></div>
+            <div class="mi"><span>Kale or Broccoli salad (NOT spinach - high oxalate)</span><span class="mip">2g</span></div>
+            <div class="mi"><span>Drink: 16 oz lemon water or plain water</span><span></span></div>
+          </div>
+
+          <div class="mcrd" style="margin:0;border-radius:0;box-shadow:none;">
+            <div class="mhdr"><div class="mhl">Evening Snack</div><div style="display:flex;gap:6px;align-items:center;"><span class="mt">4:30 PM</span><span class="mpb" style="background:#E8A838;">~10g</span></div></div>
+            <div class="mi"><span>Hummus 2-3 tbsp with cucumber and carrot sticks</span><span class="mip">4g</span></div>
+            <div class="mi"><span>Low-fat milk or fortified oat milk (1 cup)</span><span class="mip">6-8g</span></div>
+            <div class="mi"><span>Drink: 12 oz plain water</span><span></span></div>
+          </div>
+
+          <div class="mcrd" style="margin:0;border-radius:0;box-shadow:none;">
+            <div class="mhdr"><div class="mhl">Dinner</div><div style="display:flex;gap:6px;align-items:center;"><span class="mt">7:30 PM</span><span class="mpb" style="background:#9B59B6;">~25g</span></div></div>
+            <div class="mi"><span>Grilled Chicken Breast 3 oz (2-3x per week only)</span><span class="mip">21g</span></div>
+            <div class="mi"><span>OR Firm Tofu 3 oz (on other days)</span><span class="mip">8g</span></div>
+            <div class="mi"><span>Masoor or Toor Dal (1 cup)</span><span class="mip">9g</span></div>
+            <div class="mi"><span>Steamed Broccoli, Cauliflower or Green Beans</span><span class="mip">3g</span></div>
+            <div class="mi"><span>Small brown rice or 1 roti</span><span class="mip">3g</span></div>
+            <div class="mi"><span>Drink: 16 oz water. Stop eating 2 hrs before bed.</span><span></span></div>
+          </div>
+
+          <div class="mcrd" style="margin:0;border-radius:0;box-shadow:none;">
+            <div class="mhdr"><div class="mhl">Before Bed (if hungry)</div><div style="display:flex;gap:6px;align-items:center;"><span class="mt">9:30 PM</span><span class="mpb" style="background:#4AAECC;">~6g</span></div></div>
+            <div class="mi"><span>Warm low-fat milk with pinch of cardamom</span><span class="mip">6g</span></div>
+            <div class="mi"><span>2-3 plain crackers if nauseous at night</span><span class="mip">2g</span></div>
+            <div class="mi"><span>Small snack helps prevent morning nausea next day</span><span></span></div>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="infobox good">
+            <h3>Good Protein Foods to Rotate</h3>
+            <p>Greek yogurt, eggs, moong dal chilla, lentils, chole, paneer, tofu, chickpeas, milk, chicken, fish, goat, hummus, pumpkin seeds and cottage cheese.</p>
+            <p>Use smaller portions through the day instead of one very large protein-heavy meal.</p>
+          </div>
+
+          <div class="infobox purple">
+            <h3>Pregnancy Supplements - Discuss With OB</h3>
+            <p>- Prenatal Vitamin with Folate (methylfolate preferred, not just folic acid)</p>
+            <p>- Vitamin D3 - Indian-origin women in Virginia are commonly deficient</p>
+            <p>- DHA/Omega-3 for baby brain development (Nordic Naturals at Costco VA)</p>
+            <p>- Iron supplement only if blood work shows anemia</p>
+            <p>- Calcium from food preferred over supplements with kidney stone history</p>
+            <p>- NO Vitamin C supplements - increases oxalate and kidney stone risk</p>
+          </div>
+        </div>
+
+        <div class="infobox blue">
+          <h3>Family Food Rhythm</h3>
+          <p>Keep breakfast protein-rich, lunch balanced, evening snack light but useful, and dinner early enough that sleep is not delayed.</p>
+          <p>Use vegetables like kale, broccoli, cauliflower, bok choy, carrots and green beans more often than spinach when kidney-stone prevention matters.</p>
+        </div>
+      </section>
+
+
+      <section id="water" class="section">
+        <h2>Drinks</h2>
+        <div class="tbanner">
+          <h3>Daily Water Target</h3>
+          <div class="tnum">3 Liters / 100 oz</div>
+          <p>Hydration supports pregnancy comfort and is especially sensible when kidney stone history is in the picture.</p>
+        </div>
+
+        <div class="drink-card">
+          <div class="drink-hdr" style="background:#e8f4ff;color:#1a5276;">💧 Daily Water Schedule</div>
+          <div class="water-timeline"><span class="wtime">Morning</span><div><strong>Lemon water first thing</strong>Start the day with a simple hydration habit.</div></div>
+          <div class="water-timeline"><span class="wtime">With meals</span><div><strong>Water at every meal</strong>Keep urine pale yellow rather than dark.</div></div>
+          <div class="water-timeline"><span class="wtime">After walks</span><div><strong>Extra water after movement</strong>Replace what was used during activity.</div></div>
+          <div class="water-timeline"><span class="wtime">Evening</span><div><strong>Slow down at night</strong>Drink enough, but avoid chugging right before sleep.</div></div>
+        </div>
+
+        <div class="drink-card">
+          <div class="drink-hdr" style="background:#fde8ec;color:#7b1c3a;">🚫 Avoid / limit</div>
+          <div class="drink-row">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <strong style="font-size:15px;color:#7f1d1d;">All commercial detox juice cleanses</strong>
+              <span class="verdict-avoid">AVOID</span>
+            </div>
+            <div style="margin-top:8px;color:#1f2937;font-weight:600;">Detox cleanses and unpasteurized juices are not recommended during pregnancy.</div>
+            <div style="margin-top:8px;color:#374151;">Many commercial cleanses contain high-oxalate ingredients like spinach and beet while also carrying food-safety concerns if unpasteurized.</div>
+          </div>
+          <div class="drink-row">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <strong style="font-size:15px;color:#7f1d1d;">Whey Protein Shakes</strong>
+              <span class="verdict-avoid">LIMIT / AVOID</span>
+            </div>
+            <div style="margin-top:8px;color:#1f2937;font-weight:600;">Heavy whey supplementation is unnecessary for most pregnancies.</div>
+            <div style="margin-top:8px;color:#374151;">Food-based protein is usually easier to tolerate and provides broader nutrition.</div>
+          </div>
+          <div class="drink-row">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <strong style="font-size:15px;color:#7f1d1d;">Collagen Drinks & Powders</strong>
+              <span class="verdict-avoid">AVOID</span>
+            </div>
+            <div style="margin-top:8px;color:#1f2937;font-weight:700;">Collagen powders are not well studied during pregnancy and may increase oxalate load.</div>
+          </div>
+          <div class="drink-row">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <strong style="font-size:15px;color:#7f1d1d;">ABC Juice (Apple + Beet + Carrot)</strong>
+              <span class="verdict-avoid">NOT IDEAL</span>
+            </div>
+            <div style="margin-top:8px;color:#111827;font-weight:700;line-height:1.7;">Beet is one of the highest oxalate foods commonly used in juices.</div>
+            <div style="margin-top:8px;color:#374151;line-height:1.7;">Because of the kidney stone history, beet-heavy juices are generally not the best fit.</div>
+          </div>
+          <div class="drink-row">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <strong style="font-size:15px;color:#166534;">Better Drink Options</strong>
+              <span class="verdict-safe">SAFE</span>
+            </div>
+            <div style="margin-top:10px;color:#374151;">Lemon water · Coconut water · Ginger tea · Plain water · Moderate pomegranate juice · Warm milk at night</div>
+          </div>
+        </div>
+
+        <div class="infobox good">
+          <h3>Best Drinks for Her Every Day</h3>
+          <p>1. Lemon water - 16 oz first thing every morning</p>
+          <p>2. Plain water throughout day - total 3 liters</p>
+          <p>3. Ginger tea - 2 cups for nausea management</p>
+          <p>4. Coconut water - 8 oz after walks or exercise</p>
+          <p>5. Warm low-fat milk at night - protein and calcium</p>
+          <p>6. Fresh AC juice (apple carrot ginger) - 4 oz max</p>
+          <p>7. Pomegranate juice - 4 oz, good for APS and placenta</p>
+        </div>
+
+        <div class="infobox warn">
+          <h3>Drinks to Completely Avoid</h3>
+          <p>- ABC juice (beet = very high oxalate)</p>
+          <p>- All detox juices and cold-pressed cleanses</p>
+          <p>- All collagen drinks and powders</p>
+          <p>- Whey protein shakes</p>
+          <p>- Unpasteurized any juice (Listeria risk in pregnancy)</p>
+          <p>- Alcohol (absolutely none in pregnancy)</p>
+          <p>- Energy drinks (Red Bull, Monster etc)</p>
+          <p>- Sparkling water with artificial sweeteners</p>
+        </div>
+      </section>
+
+      <section id="kidney" class="section">
+        <h2>Kidney Safe</h2>
+        <div class="infobox caution">
+          <h3>About Her Kidney Stone History</h3>
+          <p>Most common type is calcium oxalate. This plan follows the safest approach for that type. Ask her urologist in Virginia which type she had - it may change some specific foods.</p>
+          <p>Good urology practices in Virginia: Urology of Virginia, Inova Urology, VCU Health Urology.</p>
+        </div>
+
+        <div class="card">
+          <div class="ch" style="background:linear-gradient(135deg,#E05A7A,#c0557a); padding:12px 14px; color:white; border-radius:12px 12px 0 0;">
+            <h3 style="margin:0;">Foods Changed from Old Plan</h3>
+          </div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Spinach</strong> - extremely high oxalate. Replace with kale, broccoli, bok choy or cabbage.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Beets and ABC juice</strong> - very high oxalate. Avoid completely including juice.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Almonds and Walnuts</strong> - high oxalate. Replace with pumpkin seeds or sunflower seeds.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Amla supplements and Vitamin C supplements</strong> - convert to oxalate. Get from food only.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Sesame seeds (til)</strong> - high oxalate. Skip entirely.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Collagen powders</strong> - very high oxalate precursor. Do not use at all.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Whey protein powder</strong> - oxalate risk plus unnecessary during pregnancy. Food only.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>Dark chocolate and cocoa</strong> - very high oxalate. Occasional milk chocolate is lower risk.</div></div>
+          <div class="avoid-item" style="background:#fff5f5;"><span style="color:#E05A7A;font-weight:800;flex-shrink:0;">X</span><div><strong>High sodium foods</strong> - chips, pickles, processed foods raise calcium in urine and promote stones.</div></div>
+        </div>
+
+        <div class="card">
+          <div class="ch" style="background:linear-gradient(135deg,#4CAF8C,#27AE60); padding:12px 14px; color:white; border-radius:12px 12px 0 0;">
+            <h3 style="margin:0;">Kidney-Safe Foods to Eat</h3>
+          </div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Kale, Broccoli, Bok Choy, Cauliflower, Cabbage</strong> - iron and calcium with much lower oxalate than spinach.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Pumpkin Seeds and Sunflower Seeds</strong> - protein and minerals, low oxalate. Replace almonds and walnuts.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Lemon and Lime water daily</strong> - citric acid actively prevents kidney stone formation.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Dairy - yogurt, milk, paneer</strong> - dietary calcium actually prevents oxalate stones by binding oxalate in gut.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Eggs</strong> - great protein, low oxalate, very kidney-friendly.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Bell peppers (all colors)</strong> - high Vitamin C, very low oxalate. Great cooking replacement for spinach.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Carrots, Green Beans, Peas, Corn</strong> - lower oxalate vegetables perfect for sabzi.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Chicken and Fish</strong> - lean protein, limit to 1 serving daily with kidney stone history.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Brown rice and whole wheat roti</strong> - moderate oxalate, staples are fine in normal portions.</div></div>
+          <div class="ok-item"><span style="color:#27AE60;font-weight:800;flex-shrink:0;">✓</span><div><strong>Rajma and Chole well-cooked and rinsed</strong> - moderate oxalate when rinsed well. Okay in moderation.</div></div>
+        </div>
+
+        <div class="infobox good">
+          <h3>Most Important Rule - Hydration</h3>
+          <p>Drink at least 3 liters (100 oz) of water daily.</p>
+          <p>This is the single most effective way to prevent kidney stones.</p>
+          <p>It also helps with APS clot prevention and pregnancy overall.</p>
+          <p>Urine should always be pale yellow - never dark yellow.</p>
+          <p>Add fresh squeezed lemon or lime to water every morning.</p>
         </div>
       </section>
 
@@ -354,30 +843,30 @@
         <h2>Activities</h2>
         <div class="tabs2" id="actTabs">
           <button class="active" data-act="swim">🏊 Swimming</button>
+          <button data-act="walk">🚶 Walking / Yoga</button>
           <button data-act="martial">🥋 Taekwondo</button>
           <button data-act="art">🎨 Art</button>
-          <button data-act="walk">🚶 Walking / Yoga</button>
         </div>
         <div id="swim" class="card" style="display:block">
-          <strong>Swimming — best overall sleep activity</strong>
-          <p class="muted">This is the best weekend activity to burn energy and support a calm night afterward.</p>
+          <strong>Swimming</strong>
+          <p class="muted">Best weekend activity for the child, and one of the most pregnancy-friendly activities for mom if cleared. Keep it early in the day.</p>
           <ul>
             <li>Best time: morning.</li>
             <li>Good fit for weekends and some weekday mornings if possible.</li>
             <li>Works well for both child and parent fitness.</li>
           </ul>
         </div>
+        <div id="walk" class="card" style="display:none">
+          <strong>Walking and yoga</strong>
+          <p class="muted">Great for pregnancy-friendly movement, calm nervous system work, and daily consistency.</p>
+        </div>
         <div id="martial" class="card" style="display:none">
           <strong>Taekwondo / martial arts</strong>
-          <p class="muted">Good for discipline, movement, and focus. Keep it earlier in the day.</p>
+          <p class="muted">Good for discipline and focus for the child later, but not for mom in a high-risk pregnancy unless her specialists specifically approve gentle movement only.</p>
         </div>
         <div id="art" class="card" style="display:none">
-          <strong>Painting / art class</strong>
-          <p class="muted">Great for development and calm play, but it will not “tire him out” like swim or active sports.</p>
-        </div>
-        <div id="walk" class="card" style="display:none">
-          <strong>Walking / yoga / breathing</strong>
-          <p class="muted">Best for mom’s pregnancy support and for family reset time.</p>
+          <strong>Art</strong>
+          <p class="muted">Excellent calm-down activity for the child; less useful for sleep pressure than swim or outdoor play.</p>
         </div>
 
         <h3>Weekly ranking for sleep pressure</h3>
@@ -404,14 +893,14 @@
             <tr><td>5:30p</td><td>Dad</td><td>Pickup</td><td>Transition home gently.</td></tr>
             <tr><td>6:00p</td><td>Child</td><td>Outdoor play</td><td>Use up energy before dinner.</td></tr>
             <tr><td>6:45p</td><td>Family</td><td>Dinner</td><td>No TV at the table.</td></tr>
-            <tr><td>8:45p</td><td>Dad</td><td>Investment / trading block</td><td>Protected focus time after kid wind-down, if needed.</td></tr>
+            <tr><td>8:45p</td><td>Dad</td><td>Trading / stocks block</td><td>Protected focus time after kid wind-down, if needed.</td></tr>
             <tr><td>9:00p</td><td>Kid</td><td>Sleep routine continues</td><td>Books, cuddles, fading touch.</td></tr>
           </tbody>
         </table>
 
         <div class="card">
           <strong>Dad’s trading block</strong>
-          <p class="muted">I added a protected 20–30 minute investing window so his daily stocks work does not fight bedtime or family time.</p>
+          <p class="muted">A protected 20–30 minute investing window helps keep work from fighting bedtime or family time.</p>
         </div>
       </section>
 
@@ -424,17 +913,17 @@
         <div id="sat" class="card" style="display:block">
           <strong>Saturday</strong>
           <ul>
-            <li>Morning swim around 9 AM.</li>
-            <li>Lunch, quiet time, then family outing or calm play.</li>
-            <li>Early dinner and a sleep routine that stays close to weekday timing.</li>
+            <li>Morning swim around 9 AM if possible.</li>
+            <li>Early lunch, calm play, then a low-stimulation afternoon.</li>
+            <li>Bedtime stays near weekday timing.</li>
           </ul>
         </div>
         <div id="sun" class="card" style="display:none">
           <strong>Sunday</strong>
           <ul>
-            <li>Keep wake time close to weekday wake time.</li>
-            <li>Do a gentle family walk, errands, or meal prep.</li>
-            <li>Set up meals, clothes, and the coming week so Monday feels lighter.</li>
+            <li>Keep wake time close to weekdays.</li>
+            <li>Family walk, meal prep, and simple reset.</li>
+            <li>Prepare outfits, lunch, and school bag early.</li>
           </ul>
         </div>
         <div class="quote">Weekends should support Monday, not undo it.</div>
@@ -443,25 +932,135 @@
       <section id="tv" class="section">
         <h2>TV Rules</h2>
         <div class="card accent">
-          <strong>Move screens earlier, do not make them the main event.</strong>
-          <p class="muted">Keep them as a planned slot, not as the thing that stretches dinner and pushes bedtime later.</p>
+          <strong>TV gets its own tab — not the front page.</strong>
+          <p class="muted">Short, scheduled screen time is easier than making TV part of dinner and bedtime.</p>
+        </div>
+        <div class="checklist">
+          <label><input type="checkbox">No TV during dinner.</label>
+          <label><input type="checkbox">No screens in the bedroom.</label>
+          <label><input type="checkbox">Turn screens off at least 60 minutes before bed.</label>
+          <label><input type="checkbox">Keep weekends close to weekday timing.</label>
+        </div>
+      </section>
+
+      <section id="safety" class="section">
+        <h2>Safety</h2>
+        <div class="infobox warn">
+          <h3>Virginia Doctors to See Immediately</h3>
+          <p>- Hematologist (existing) - inform about pregnancy, discuss Lovenox</p>
+          <p>- OB/GYN - keep informed about all conditions</p>
+          <p>- Maternal-Fetal Medicine specialist (Inova / VCU / UVA)</p>
+          <p>- Urologist - kidney stone history plus pregnancy needs monitoring</p>
         </div>
 
-        <table>
-          <thead><tr><th>Time slot</th><th>Verdict</th><th>Rule</th></tr></thead>
-          <tbody>
-            <tr><td>Morning</td><td>✅ Best</td><td>Best time for a short screen slot if you keep it limited.</td></tr>
-            <tr><td>After daycare</td><td>✅ Optional</td><td>Short calming slot before outdoor play or dinner prep.</td></tr>
-            <tr><td>Dinner</td><td>❌ Remove</td><td>No TV at the table.</td></tr>
-            <tr><td>After 7 PM</td><td>❌ Never</td><td>Hard stop to protect sleep.</td></tr>
-          </tbody>
-        </table>
+        <div class="card">
+          <div class="card-header gradient-pink">
+            <h2>Splenomegaly in Pregnancy</h2>
+            <p>Extra caution as pregnancy progresses</p>
+          </div>
+          <div class="row">
+            <div class="num">1</div>
+            <div>
+              <h4>No contact or impact activities ever</h4>
+              <p class="muted">Spleen risk remains throughout all trimesters.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">2</div>
+            <div>
+              <h4>No heavy lifting</h4>
+              <p class="muted">Avoid anything over 10 lbs and discuss practical lifting with OB if needed.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">3</div>
+            <div>
+              <h4>Stop if upper left abdominal pain</h4>
+              <p class="muted">Could indicate spleen stress. Call doctor immediately, do not wait.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">4</div>
+            <div>
+              <h4>Ask OB to monitor spleen in ultrasounds</h4>
+              <p class="muted">Growing uterus shifts organs. Spleen size should be checked.</p>
+            </div>
+          </div>
+        </div>
 
-        <div class="checklist" style="margin-top:12px">
-          <label><input type="checkbox">Keep screens out of the bedroom.</label>
-          <label><input type="checkbox">Turn them off at least 60 minutes before bed.</label>
-          <label><input type="checkbox">Use a consistent family media plan.</label>
-          <label><input type="checkbox">Do not use TV to stretch dinner or bedtime.</label>
+        <div class="card">
+          <div class="card-header gradient-purple">
+            <h2>APS in Pregnancy - Critical Points</h2>
+            <p>High-risk pregnancy protocol - non-negotiable</p>
+          </div>
+          <div class="row">
+            <div class="num">1</div>
+            <div>
+              <h4>Lovenox injections plus aspirin is standard APS protocol</h4>
+              <p class="muted">Call hematologist this week to confirm if Lovenox has been started.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">2</div>
+            <div>
+              <h4>Legs Up Wall pose every single evening</h4>
+              <p class="muted">A simple clot-prevention routine that also helps swelling.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">3</div>
+            <div>
+              <h4>Never sit still for over 1 hour</h4>
+              <p class="muted">Get up, do ankle pumps, walk to kitchen. Keep blood moving.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">4</div>
+            <div>
+              <h4>Wear compression socks from 2nd trimester</h4>
+              <p class="muted">Especially on long trips or long sitting days. Ask OB for compression grade.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">5</div>
+            <div>
+              <h4>Ultrasounds every 2-4 weeks</h4>
+              <p class="muted">APS can affect placenta blood flow. MFM monitors this closely.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="num">6</div>
+            <div>
+              <h4>Watch for DVT signs</h4>
+              <p class="muted">Calf pain, redness, one leg swollen more than the other - go to ER immediately.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="infobox good">
+          <h3>Safest Daily Habits for Her</h3>
+          <p>1. Lemon water 16 oz first thing every morning</p>
+          <p>2. Legs Up the Wall 10 minutes every evening</p>
+          <p>3. Ankle pumps every 1-2 hours while sitting</p>
+          <p>4. Gentle 15-min walk in morning on flat surface</p>
+          <p>5. 3 liters of water spread through the day</p>
+          <p>6. Pelvic floor kegels 3 x 10 every day</p>
+          <p>7. Take aspirin and prenatal vitamin with food</p>
+          <p>8. Stop and rest the moment tired - never push through</p>
+        </div>
+
+        <div class="infobox warn">
+          <h3>Never Do During This Pregnancy</h3>
+          <p>- Vibration plate (dangerous for spleen, APS and fetus)</p>
+          <p>- ABC juice or beet juice (kidney stone risk)</p>
+          <p>- Collagen powders or whey protein shakes</p>
+          <p>- Detox juices or cold-pressed unpasteurized juices</p>
+          <p>- Badminton, tennis or racket sports</p>
+          <p>- HIIT, Zumba with jumping, any high intensity exercise</p>
+          <p>- Lying flat on back after week 12</p>
+          <p>- Hot yoga, hot tub or sauna</p>
+          <p>- Holding breath during any exercise</p>
+          <p>- 10,000 steps per day - too much for high-risk pregnancy</p>
         </div>
       </section>
 
@@ -479,39 +1078,11 @@
         <div class="quote">The first changes are: earlier TV, earlier calm-down, and a predictable bedtime sequence.</div>
       </section>
     </main>
-
-    <aside class="panel">
-      <h3>Page summary</h3>
-      <p class="muted">This version keeps the sleep-first front page, but adds a pregnancy-safe family wellness layer and a more realistic schedule for the parents.</p>
-
-      <h3>Best next step</h3>
-      <div class="card">
-        <strong>Use this as the new GitHub Pages index.html.</strong>
-        <p class="muted small">Replace the current file in your repo, commit it, then wait for GitHub Pages to rebuild.</p>
-      </div>
-
-      <h3>Family targets</h3>
-      <div class="card">
-        <ul>
-          <li>Kid asleep earlier over time</li>
-          <li>Mom pregnancy wellness stays clinician-guided</li>
-          <li>Dad keeps workout and investing time</li>
-          <li>Meals get simpler and higher protein</li>
-        </ul>
-      </div>
-
-      <h3>GitHub Pages note</h3>
-      <div class="card">
-        <ul>
-          <li>Keep only <strong>index.html</strong> for the live page</li>
-          <li>Delete duplicate HTML files later if needed</li>
-          <li>Refresh after deployment if you see cached 404s</li>
-        </ul>
-      </div>
-    </aside>
   </div>
 
-  <div class="footer">Family Sleep & Wellness Canvas v3 — updated for pregnancy, meals, workouts, and investment time.</div>
+  <div class="footer">
+    Family Sleep & Wellness Canvas v4 · Single File HTML · Combined from both uploaded sources
+  </div>
 </div>
 
 <script>
@@ -534,7 +1105,7 @@
   }
 
   const actTabs = document.querySelectorAll('#actTabs button');
-  const actPanels = ['swim','martial','art','walk'];
+  const actPanels = ['swim','walk','martial','art'];
   actTabs.forEach(btn => btn.addEventListener('click', () => {
     actTabs.forEach(b => b.classList.remove('active'));
     actPanels.forEach(id => document.getElementById(id).style.display = 'none');
